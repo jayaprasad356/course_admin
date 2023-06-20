@@ -227,6 +227,8 @@ public function update_course(Request $request)
     
         $appUpdateDetails = $allAppUpdates->map(function ($appUpdate) {
             return [
+                'updated_at' =>$appUpdate->updated_at,
+                'created_at' =>$appUpdate->created_at,
                 'version' => $appUpdate->version,
                 'link' => $appUpdate->link,
                 'description' => $appUpdate->description,

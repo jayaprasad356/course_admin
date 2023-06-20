@@ -187,60 +187,24 @@ public function update_course(Request $request)
 
     //app_update
     public function app_update(Request $request)
-    {
-        $app_update_id = $request->input('app_update_id');
-    
-        if (empty($app_update_id)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'App Update ID is empty',
-            ], 200);
-        }
-    
-        $app_update = app_update::find($app_update_id);
-    
-        if (!$app_update) {
-            return response()->json([
-                'success' => false,
-                'message' => 'App Update not found',
-            ], 404);
-        }
-    
-        $version = $request->input('version');
-        $link = $request->input('link');
-        $description = $request->input('description');
-    
-        if (!empty($version)) {
-            $app_update->version = $version;
-        }
-        if (!empty($link)) {
-            $app_update->link = $link;
-        }
-        if (!empty($description)) {
-            $app_update->description = $description;
-        }
-    
-        $app_update->save();
+{
+    $app_updates = app_update::all(); // Assuming 'AppUpdate' is the correct model name
 
-        // Fetch all details from the app_update table
-        $allAppUpdates = app_update::all();
-    
-        $appUpdateDetails = $allAppUpdates->map(function ($appUpdate) {
-            return [
-                'updated_at' =>$appUpdate->updated_at,
-                'created_at' =>$appUpdate->created_at,
-                'version' => $appUpdate->version,
-                'link' => $appUpdate->link,
-                'description' => $appUpdate->description,
-            ];
-        });
-    
+    if ($app_updates->isEmpty()) {
         return response()->json([
-            'success' => true,
-            'message' => 'App Update details updated successfully',
-            'data' => $appUpdateDetails,
-        ], 200);
+            "success" => false,
+            'message' => "App Updates Not Found",
+        ], 404);
     }
+
+    $app_updateDetails = $app_updates->toArray();
+
+    return response()->json([
+        "success" => true,
+        'message' => 'App Updates Retrieved Successfully',
+        'data' => $app_updateDetails,
+    ], 200);
+}
     
     
     

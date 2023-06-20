@@ -206,7 +206,7 @@ public function update_course(Request $request)
     ], 200);
 }
 //courselist
-public function courselist(Request $request)
+public function course(Request $request)
 {
     $course = Course::first(); // Assuming 'Course' is the correct model name
 

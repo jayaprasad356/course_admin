@@ -223,7 +223,7 @@ public function update_course(Request $request)
         $app_update->save();
 
         // Fetch all details from the app_update table
-        $allAppUpdates = AppUpdate::all();
+        $allAppUpdates = app_update::all();
     
         $appUpdateDetails = $allAppUpdates->map(function ($appUpdate) {
             return [

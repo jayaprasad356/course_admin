@@ -197,7 +197,7 @@ public function update_course(Request $request)
             ], 200);
         }
     
-        $app_update = AppUpdate::find($app_update_id);
+        $app_update = app_update::find($app_update_id);
     
         if (!$app_update) {
             return response()->json([

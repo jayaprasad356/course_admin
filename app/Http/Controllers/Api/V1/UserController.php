@@ -188,13 +188,6 @@ public function update_course(Request $request)
     //app_update
     public function app_update(Request $request)
     {
-        $app_update_id = $request->input('app_update_id');
-        if (empty($app_update_id)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'App Update ID is empty',
-            ], 200);
-        }
     
         $app_update = AppUpdate::find($app_update_id);
     

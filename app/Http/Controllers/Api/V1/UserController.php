@@ -221,12 +221,17 @@ public function update_course(Request $request)
         }
     
         $app_update->save();
+
+        // Fetch all details from the app_update table
+        $allAppUpdates = AppUpdate::all();
     
-        $appUpdateDetails = [
-            'version' => $app_update->version,
-            'link' => $app_update->link,
-            'description' => $app_update->description,
-        ];
+        $appUpdateDetails = $allAppUpdates->map(function ($appUpdate) {
+            return [
+                'version' => $appUpdate->version,
+                'link' => $appUpdate->link,
+                'description' => $appUpdate->description,
+            ];
+        });
     
         return response()->json([
             'success' => true,

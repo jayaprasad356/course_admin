@@ -186,25 +186,32 @@ public function update_course(Request $request)
 }
 
     //app_update
-  public function app_update(Request $request)
-{
-    $app_updates = app_update::all(); // Assuming 'AppUpdate' is the correct model name
-
-    if ($app_updates->isEmpty()) {
+    public function app_update(Request $request)
+    {
+        $app_updates = AppUpdate::all(); // Assuming 'AppUpdate' is the correct model name
+    
+        if ($app_updates->isEmpty()) {
+            return response()->json([
+                "success" => false,
+                'message' => "App Updates Not Found",
+            ], 404);
+        }
+    
+        $app_updateDetails = $app_updates->map(function ($app_update) {
+            return [
+                'version' => $app_update->version,
+                'link' => $app_update->link,
+                'description' => $app_update->description,
+            ];
+        });
+    
         return response()->json([
-            "success" => false,
-            'message' => "App Updates Not Found",
-        ], 404);
+            "success" => true,
+            'message' => 'App Updates Retrieved Successfully',
+            'data' => $app_updateDetails,
+        ], 200);
     }
-
-    $app_updateDetails = $app_updates->toArray();
-
-    return response()->json([
-        "success" => true,
-        'message' => 'App Updates Retrieved Successfully',
-        'data' => $app_updateDetails,
-    ], 200);
-}
+    
 //courselist
 public function course(Request $request)
 {

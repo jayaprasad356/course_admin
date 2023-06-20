@@ -197,13 +197,15 @@ public function update_course(Request $request)
             ], 404);
         }
     
-        $app_updateDetails = $app_updates->map(function ($app_update) {
-            return [
-                'version' => $app_update->version,
-                'link' => $app_update->link,
-                'description' => $app_update->description,
+        $app_updateDetails = [];
+    
+        foreach ($app_updates as $app_update) {
+            $app_updateDetails[] = [
+                'version' => 'new_version_here',
+                'link' => 'new_link_here',
+                'description' => 'new_description_here',
             ];
-        });
+        }
     
         return response()->json([
             "success" => true,

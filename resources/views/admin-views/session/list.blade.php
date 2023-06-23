@@ -68,7 +68,7 @@
                                         <td>{{$session['id']}}</td>
                                         <td>
                                             <span class="d-block font-size-sm text-body">
-                                                {{$session['name']}}
+                                                {{$session['title']}}
                                             </span>
                                         </td>
                                         <td>{{$session->course->author}}</td>

@@ -66,7 +66,7 @@
                             @foreach($courses as $key=>$course)
                                 <tr>
                                     <td> {{$course['id']}}</td>
-                                    <td> {{$course['name']}}</td>
+                                    <td> {{$course['author']}}</td>
                                     <td>
                                         <div style="height: 60px; width: 60px; overflow-x: hidden;overflow-y: hidden">
                                             <img width="60" 

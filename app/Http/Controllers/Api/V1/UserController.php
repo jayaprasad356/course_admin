@@ -235,11 +235,7 @@ public function course_list(Request $request)
             'image' => $imagePath,
         ];
 
-        return response()->json([
-            "success" => true,
-            'message' => 'Course listed successfully',
-            'data' => $responseData,
-        ], 200);
+        return response()->json([$responseData], 200);
     } else {
         return response()->json([
             "success" => false,
@@ -247,6 +243,7 @@ public function course_list(Request $request)
         ], 404);
     }
 }
+
 
 //sessionlist
 public function session_list(Request $request)

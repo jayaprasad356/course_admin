@@ -10,6 +10,7 @@ use App\Model\User;
 use App\Model\Book;
 use App\Model\Cart;
 use App\Model\course;
+use App\Model\session;
 use App\Model\app_update;
 use App\Model\enrolled_course;
 use App\Model\Order;
@@ -245,7 +246,31 @@ public function course_list(Request $request)
     }
 }
 
-
+//sessionlist
+public function session_list(Request $request)
+{    
+    $course_id = $request->input('course_id');
+    if(empty($course_id)){
+        return response()->json([
+            'success'=>false,
+            'message' => 'course id is Empty',
+        ], 200);
+    }
+    $sessions = Session::where('course_id', $request->input('course_id'))->first();
+    if (count($sessions)>=1) {
+        return response()->json([
+           "success" => true ,
+            'message' => 'Details Retrieved Successfully',
+            'data' =>$sessions,
+        ], 201);
+    }
+    else{
+        return response()->json([
+                "success" => false ,
+                'message'=> "User Not Found",
+              ], 400);
+    }
+}
 
 /*public function enrolled_course(Request $request)
 {

@@ -251,29 +251,32 @@ public function course_list(Request $request)
 
 //sessionlist
 public function session_list(Request $request)
-{    
+{
     $course_id = $request->input('course_id');
-    if(empty($course_id)){
+
+    if (empty($course_id)) {
         return response()->json([
-            'success'=>false,
-            'message' => 'course id is Empty',
+            'success' => false,
+            'message' => 'Course ID is empty',
+        ], 400);
+    }
+
+    $sessions = Session::where('course_id', $course_id)->get();
+
+    if (count($sessions) > 0) {
+        return response()->json([
+            "success" => true,
+            'message' => 'Sessions listed successfully',
+            'data' => $sessions,
         ], 200);
-    }
-    $sessions = Session::where('course_id', $request->input('course_id'))->first();
-    if (count($sessions)>=1) {
+    } else {
         return response()->json([
-           "success" => true ,
-            'message' => 'Details Retrieved Successfully',
-            'data' =>$sessions,
-        ], 201);
-    }
-    else{
-        return response()->json([
-                "success" => false ,
-                'message'=> "User Not Found",
-              ], 400);
+            "success" => false,
+            'message' => "No sessions found for the given course ID",
+        ], 404);
     }
 }
+
 
 /*public function enrolled_course(Request $request)
 {

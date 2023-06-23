@@ -109,6 +109,7 @@ public function Register(Request $request)
         'data' => $user,
     ], 201);
 }
+//update profile
 public function update_profile(Request $request)
 {
     $user_id = $request->input('user_id');
@@ -132,6 +133,8 @@ public function update_profile(Request $request)
     // Update user details based on the request data
     $user->name = $request->input('name');
     $user->email = $request->input('email');
+    $user->mobile = $request->input('mobile');
+    $user->password = $request->input('password');
     // Add more fields to update as needed
 
     // Save the updated user details

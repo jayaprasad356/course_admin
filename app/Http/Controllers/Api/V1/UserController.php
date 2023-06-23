@@ -229,10 +229,10 @@ public function course_list(Request $request)
         $imagePath = asset('storage/app/public/user/' . $course->image);
 
         $responseData = [
+            'id' => $courseDetails['id'],
             'author' => $courseDetails['author'],
             'course_title' => $courseDetails['course_title'],
             'image' => $imagePath,
-            'course_id' => $courseDetails['course_id'],
         ];
 
         return response()->json([

@@ -211,41 +211,35 @@ public function update_course(Request $request)
 //courselist
 public function course_list(Request $request)
 {
-    $course_id = $request->input('course_id');
+    $courses = Course::all();
 
-    if (empty($course_id)) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Course ID is empty',
-        ], 400);
-    }
-
-    $course = Course::find($course_id);
-
-    if ($course) {
-        $courseDetails = $course->toArray();
-
-        $responseData = [
-            [
-                'id' => $courseDetails['id'],
-                'author' => $courseDetails['author'],
-                'course_title' => $courseDetails['course_title'],
-                'image' => asset('storage/app/public/course/' . $courseDetails['image']),
-            ]
-        ];
-
-        return response()->json([
-            "success" => true,
-            'message' => 'Course listed successfully',
-            'data' => $responseData,
-        ], 200);
-    } else {
+    if ($courses->isEmpty()) {
         return response()->json([
             "success" => false,
-            'message' => "Course not found",
+            'message' => "No courses found",
         ], 404);
     }
+
+    $responseData = [];
+
+    foreach ($courses as $course) {
+        $courseDetails = $course->toArray();
+
+        $responseData[] = [
+            'id' => $courseDetails['id'],
+            'author' => $courseDetails['author'],
+            'course_title' => $courseDetails['course_title'],
+            'image' => asset('storage/app/public/course/' . $courseDetails['image']),
+        ];
+    }
+
+    return response()->json([
+        "success" => true,
+        'message' => 'Courses listed successfully',
+        'data' => $responseData,
+    ], 200);
 }
+
 
 
 

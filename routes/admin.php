@@ -225,16 +225,17 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('search', 'CourseController@search')->name('search');
     });
 
-    Route::group(['prefix' => 'categories', 'as' => 'categories.', 'middleware' => ['module:categories_management']], function () {
-        Route::get('add', 'categoriesController@index')->name('add');
-        Route::post('store', 'categoriesController@store')->name('store');
-        Route::get('list', 'categoriesController@list')->name('list');
-        Route::get('preview/{id}', 'categoriesController@preview')->name('preview');
-        Route::get('edit/{id}', 'categoriesController@edit')->name('edit');
-        Route::post('update/{id}', 'categoriesController@update')->name('update');
-        Route::delete('delete/{id}', 'categoriesController@delete')->name('delete');
-        Route::post('search', 'categoriesController@search')->name('search');
+    Route::group(['prefix' => 'categories', 'as' => 'categories.'], function () {
+        Route::get('add', [categoriesController::class, 'index'])->name('add');
+        Route::post('store', [categoriesController::class, 'store'])->name('store');
+        Route::get('list', [categoriesController::class, 'list'])->name('list');
+        Route::get('preview/{id}', [categoriesController::class, 'preview'])->name('preview');
+        Route::get('edit/{id}', [categoriesController::class, 'edit'])->name('edit');
+        Route::post('update/{id}', [categoriesController::class, 'update'])->name('update');
+        Route::delete('delete/{id}', [categoriesController::class, 'delete'])->name('delete');
+        Route::post('search', [categoriesController::class, 'search'])->name('search');
     });
+    
 
     Route::get('list', 'OrderController@list')->name('list');
     Route::post('search', 'OrderController@search')->name('search');

@@ -226,13 +226,11 @@ public function course_list(Request $request)
     if ($course) {
         $courseDetails = $course->toArray();
 
-        $imagePath = asset('storage/app/public/course/' . $course->image);
-
         $responseData = [
             'id' => $courseDetails['id'],
             'author' => $courseDetails['author'],
             'course_title' => $courseDetails['course_title'],
-            'image' => $imagePath,
+            'image' => asset('storage/app/public/couse/' . $course->image),
         ];
 
         return response()->json([

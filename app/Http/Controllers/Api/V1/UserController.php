@@ -263,7 +263,7 @@ public function session_list(Request $request)
 
     $sessions = Session::where('course_id', $course_id)->get();
 
-   if ($session->count() > 0){
+    if (count($sessions)) {
         return response()->json([
             "success" => true,
             'message' => 'Sessions listed successfully',

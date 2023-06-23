@@ -79,21 +79,18 @@ class sessionController extends Controller
         $session->course_id = $request->course_id;
         $session->description = $request->description;
         $session->save();
-        
-        $videoLinks = $request->input('video_link');
-        
-        foreach ($videoLinks as $videoLink) {
-            // Handle each video link
-            // For example, you can create a new SessionVideo model and save each video link
-            $sessionVideo = new SessionVideo();
-            $sessionVideo->session_id = $session->id;
-            $sessionVideo->video_link = $videoLink;
-            $sessionVideo->save();
-        }
-        
+    
+        $video_link = $request->input('video_link');
+    
+        $sessionVideo = new SessionVideo();
+        $sessionVideo->session_id = $session->id;
+        $sessionVideo->video_link = $video_link;
+        $sessionVideo->save();
+    
         Toastr::success(translate('Session added successfully!'));
         return redirect('admin/session/list');
     }
+    
     
 
     public function edit($id)

@@ -110,23 +110,32 @@ public function Register(Request $request)
     ], 201);
 }
   //update profile
-  public function update_user(Request $request)
-  {    
+  public function update_profile(Request $request)
+  {
       $user_id = $request->input('user_id');
       if (empty($user_id)) {
           return response()->json([
               'success' => false,
-              'message' => 'User Id is Empty',
+              'message' => 'User ID is empty',
           ], 200);
       }
       
       $user = User::find($user_id);
       if ($user) {
-          // Update the user profile based on the request data
-          $user->name = $request->input('name');
-          $user->email = $request->input('email');
-          $user->mobile = $request->input('mobile');
-          $user->password = $request->input('password');
+          // Validate the request data
+          $validatedData = $request->validate([
+              'name' => 'required|string',
+              'email' => 'required|email',
+              'mobile' => 'required|string',
+              'password' => 'required|string',
+              // Add more validation rules as needed
+          ]);
+          
+          // Update the user profile based on the validated request data
+          $user->name = $validatedData['name'];
+          $user->email = $validatedData['email'];
+          $user->mobile = $validatedData['mobile'];
+          $user->password = bcrypt($validatedData['password']); // Hash the password
           
           // Save the updated user
           $user->save();
@@ -139,10 +148,11 @@ public function Register(Request $request)
       } else {
           return response()->json([
               'success' => false,
-              'message' => 'User Not Found',
+              'message' => 'User not found',
           ], 400);
       }
   }
+  
   
     
   //userdetails

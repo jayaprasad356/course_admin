@@ -230,11 +230,8 @@ public function course_list(Request $request)
             'id' => $courseDetails['id'],
             'author' => $courseDetails['author'],
             'course_title' => $courseDetails['course_title'],
-            'image' => asset('storage/app/public/user/' . $courseDetails['image']),
+            'image' => asset('storage/app/public/course/' . $courseDetails['image']),
         ];
-
-        // Append a new key 'image_url' to responseData with the image URL
-        $responseData['image_url'] = $responseData['image'];
 
         return response()->json([
             "success" => true,
@@ -248,7 +245,6 @@ public function course_list(Request $request)
         ], 404);
     }
 }
-
 
 
 

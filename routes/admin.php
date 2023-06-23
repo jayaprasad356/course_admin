@@ -193,16 +193,16 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     });
 
     Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['module:user_management']], function () {
-        Route::get('add', 'userController@index')->name('add');
-        Route::post('store', 'userController@store')->name('store');
-        Route::get('list', 'userController@list')->name('list');
-        Route::get('preview/{id}', 'userController@preview')->name('preview');
-        Route::get('edit/{id}', 'userController@edit')->name('edit');
-        Route::post('update/{id}', 'userController@update')->name('update');
-        Route::delete('delete/{id}', 'userController@delete')->name('delete');
-        Route::post('search', 'userController@search')->name('search');
+        Route::get('add', 'UserController@index')->name('add');
+        Route::post('store', 'UserController@store')->name('store');
+        Route::get('list', 'UserController@list')->name('list');
+        Route::get('preview/{id}', 'UserController@preview')->name('preview');
+        Route::get('edit/{id}', 'UserController@edit')->name('edit');
+        Route::post('update/{id}', 'UserController@update')->name('update');
+        Route::delete('delete/{id}', 'UserController@delete')->name('delete');
+        Route::post('search', 'UserController@search')->name('search');
     });
-
+    
     Route::group(['prefix' => 'session', 'as' => 'session.', 'middleware' => ['module:session_management']], function () {
         Route::get('add', 'sessionController@index')->name('add');
         Route::post('store', 'sessionController@store')->name('store');

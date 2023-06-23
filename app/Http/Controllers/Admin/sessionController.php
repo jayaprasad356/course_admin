@@ -90,7 +90,7 @@ class sessionController extends Controller
     public function edit($id)
     {
         $session = session::find($id);
-        $courses = course::pluck('name', 'id'); // Fetch all courses as options for the dropdown
+        $courses = course::pluck('author', 'id'); // Fetch all courses as options for the dropdown
         return view('admin-views.session.edit', compact('session', 'courses'));
     }
 

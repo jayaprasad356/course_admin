@@ -224,11 +224,16 @@ public function course_list(Request $request)
     $course = Course::find($course_id);
 
     if ($course) {
+        $courseDetails = $course->toArray();
+
+        // Assuming the image link is stored in the 'imagelink' field of the course model
+        $imageLink = DOMAIN_URL . $courseDetails['image'];
+
         $responseData = [
-            'id' => $course->id,
-            'author' => $course->author,
-            'course_title' => $course->course_title,
-            'image' => $course->imagelink,
+            'id' => $courseDetails['id'],
+            'author' => $courseDetails['author'],
+            'course_title' => $courseDetails['course_title'],
+            'image' => $imageLink,
         ];
 
         return response()->json([

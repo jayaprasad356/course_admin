@@ -224,17 +224,11 @@ public function course_list(Request $request)
     $course = Course::find($course_id);
 
     if ($course) {
-        $courseDetails = $course->toArray();
-
-        // Assuming the image field contains the image filename
-        $imagePath = 'storage/app/public/user/' . $courseDetails['image'];
-        $imageUrl = asset($imagePath);
-
         $responseData = [
-            'id' => $courseDetails['id'],
-            'author' => $courseDetails['author'],
-            'course_title' => $courseDetails['course_title'],
-            'image' => $imageUrl,
+            'id' => $course->id,
+            'author' => $course->author,
+            'course_title' => $course->course_title,
+            'image' => $course->imagelink,
         ];
 
         return response()->json([

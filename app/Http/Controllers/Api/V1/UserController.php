@@ -281,13 +281,19 @@ public function my_course_list(Request $request)
     if (empty($user_id)) {
         return response()->json([
             'success' => false,
-            'message' => 'user ID is empty',
+            'message' => 'User ID is empty',
         ], 400);
     }
 
     $courses = Course::where('user_id', $user_id)->get();
 
-    $responseData = [];
+    if ($courses->isEmpty()) {
+        return response()->json([
+            'success' => false,
+            'message' => 'No courses found for the given user ID',
+        ], 404);
+    }
+
     $responseData = [];
 
     foreach ($courses as $course) {
@@ -302,11 +308,12 @@ public function my_course_list(Request $request)
     }
 
     return response()->json([
-        "success" => true,
+        'success' => true,
         'message' => 'Courses listed successfully',
         'data' => $responseData,
     ], 200);
 }
+
 
 /*public function enrolled_course(Request $request)
 {

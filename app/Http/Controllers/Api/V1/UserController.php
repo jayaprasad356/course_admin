@@ -226,11 +226,12 @@ public function course_list(Request $request)
     if ($course) {
         $courseDetails = $course->toArray();
 
+        // Assuming the image link is stored in the 'imagelink' field of the course model
         $responseData = [
             'id' => $courseDetails['id'],
             'author' => $courseDetails['author'],
             'course_title' => $courseDetails['course_title'],
-            'image' =>$courseDetails['image'],
+            'image' => $courseDetails['imagelink'],
         ];
 
         return response()->json([
@@ -245,6 +246,7 @@ public function course_list(Request $request)
         ], 404);
     }
 }
+
 
 
 

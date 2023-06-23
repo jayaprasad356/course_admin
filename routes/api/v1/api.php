@@ -22,7 +22,8 @@ Route::group(['namespace' => 'Api\V1', 'middleware' => 'localization'], function
     Route::post('/app_update','UserController@app_update');
     Route::post('/update_course','UserController@update_course');
     Route::post('/course_list','UserController@course_list');
-    Route::post('/my_course_list','UserController@my_course_list');
+    Route::post('/my_course_list/{user_id}', 'Api\V1\UserController@my_course_list');
+
     Route::post('/session_list','UserController@session_list');
 
 

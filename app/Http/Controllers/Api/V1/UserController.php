@@ -210,27 +210,29 @@ public function update_course(Request $request)
     
 //courselist
 public function course_list(Request $request)
-{    
+{
     $user_id = $request->input('user_id');
-    if(empty($user_id)){
+
+    if (empty($user_id)) {
         return response()->json([
-            'success'=>false,
+            'success' => false,
             'message' => 'User Id is Empty',
+        ], 400);
+    }
+
+    $courses = Course::where('user_id', $user_id)->get();
+
+    if (count($courses) >= 1) {
+        return response()->json([
+            "success" => true,
+            'message' => 'Courses listed successfully',
+            'data' => $courses,
         ], 200);
-    }
-    $courses = Course::where('id', $request->input('user_id'))->get();
-    if (count($course)>=1) {
+    } else {
         return response()->json([
-           "success" => true ,
-            'message' => 'course listed Successfully',
-            'data' =>$course,
-        ], 201);
-    }
-    else{
-        return response()->json([
-                "success" => false ,
-                'message'=> "course Not Found",
-              ], 400);
+            "success" => false,
+            'message' => "No courses found",
+        ], 404);
     }
 }
 

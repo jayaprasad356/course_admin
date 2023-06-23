@@ -274,17 +274,20 @@ public function session_list(Request $request)
     ], 200);
 }
 //my course list
-public function my_course_list(Request $request, $user_id)
+public function my_course_list(Request $request)
 {
-    $courses = Course::where('user_id', $user_id)->get();
+    $user_id = $request->input('user_id');
 
-    if ($courses->isEmpty()) {
+    if (empty($user_id)) {
         return response()->json([
-            "success" => false,
-            'message' => "No courses found",
-        ], 404);
+            'success' => false,
+            'message' => 'user ID is empty',
+        ], 400);
     }
 
+    $courses = Course::where('user_id', $user_id)->get();
+
+    $responseData = [];
     $responseData = [];
 
     foreach ($courses as $course) {
@@ -304,7 +307,6 @@ public function my_course_list(Request $request, $user_id)
         'data' => $responseData,
     ], 200);
 }
-
 
 /*public function enrolled_course(Request $request)
 {

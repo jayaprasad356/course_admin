@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Model\User;
 use Illuminate\Http\Request;
 use Brian2694\Toastr\Facades\Toastr;
 

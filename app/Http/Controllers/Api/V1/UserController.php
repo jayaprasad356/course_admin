@@ -240,13 +240,6 @@ public function course_list(Request $request)
     ], 200);
 }
 
-
-
-
-
-
-
-
 //sessionlist
 public function session_list(Request $request)
 {
@@ -280,7 +273,37 @@ public function session_list(Request $request)
         'data' => $responseData,
     ], 200);
 }
+//my course list
+public function my_course_list(Request $request, $user_id)
+{
+    $courses = Course::where('user_id', $user_id)->get();
 
+    if ($courses->isEmpty()) {
+        return response()->json([
+            "success" => false,
+            'message' => "No courses found",
+        ], 404);
+    }
+
+    $responseData = [];
+
+    foreach ($courses as $course) {
+        $courseDetails = $course->toArray();
+
+        $responseData[] = [
+            'id' => $courseDetails['id'],
+            'author' => $courseDetails['author'],
+            'course_title' => $courseDetails['course_title'],
+            'image' => asset('storage/app/public/course/' . $courseDetails['image']),
+        ];
+    }
+
+    return response()->json([
+        "success" => true,
+        'message' => 'Courses listed successfully',
+        'data' => $responseData,
+    ], 200);
+}
 
 
 /*public function enrolled_course(Request $request)

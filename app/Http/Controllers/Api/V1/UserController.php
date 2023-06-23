@@ -261,19 +261,26 @@ public function session_list(Request $request)
 
     $sessions = Session::where('course_id', $course_id)->get();
 
-    if (count($sessions)) {
-        return response()->json([
-            "success" => true,
-            'message' => 'Sessions listed successfully',
-            'data' => $sessions,
-        ], 200);
-    } else {
-        return response()->json([
-            "success" => false,
-            'message' => "No sessions found ",
-        ], 404);
+    $responseData = [];
+
+    foreach ($sessions as $session) {
+        $sessionDetails = $session->toArray();
+
+        $responseData[] = [
+            'id' => $sessionDetails['id'],
+            'video_link' => $sessionDetails['video_link'],
+            'description' => $sessionDetails['description'],
+            'course_id' => $sessionDetails['course_id'],
+        ];
     }
+
+    return response()->json([
+        "success" => true,
+        'message' => 'session listed successfully',
+        'data' => $responseData,
+    ], 200);
 }
+
 
 
 /*public function enrolled_course(Request $request)

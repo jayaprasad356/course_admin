@@ -110,7 +110,7 @@ public function Register(Request $request)
     ], 201);
 }
   //update profile
-  public function update_profile(Request $request)
+  public function update_user(Request $request)
   {    
       $user_id = $request->input('user_id');
       if (empty($user_id)) {

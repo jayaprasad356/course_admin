@@ -78,17 +78,9 @@ class sessionController extends Controller
         $session->name = $request->name;
         $session->course_id = $request->course_id;
         $session->description = $request->description;
+        $session->video_link = $request->video_link ?? ''; // Set a default value if video_link is not provided
         $session->save();
-    
-        $videos = $request->file('videos');
-    
-        foreach ($videos as $video) {
-            $videoPath = $video->store('videos', 'public');
-            $sessionVideo = new SessionVideo();
-            $sessionVideo->session_id = $session->id;
-            $sessionVideo->video_path = $videoPath;
-            $sessionVideo->save();
-        }
+   
     
         Toastr::success(translate('Session added successfully!'));
         return redirect('admin/session/list');

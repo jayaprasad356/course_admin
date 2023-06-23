@@ -272,7 +272,7 @@ public function session_list(Request $request)
     } else {
         return response()->json([
             "success" => false,
-            'message' => "No sessions found for the given course ID",
+            'message' => "No sessions found ",
         ], 404);
     }
 }

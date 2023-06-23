@@ -1,13 +1,8 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
-use App\CentralLogics\Helpers;
-use App\Http\Controllers\Controller;
-use App\Model\categories;
-use App\Model\Comment;
 use Illuminate\Http\Request;
-use Brian2694\Toastr\Facades\Toastr;
+use App\Http\Controllers\Controller;
 
 class CategoriesController extends Controller
 {

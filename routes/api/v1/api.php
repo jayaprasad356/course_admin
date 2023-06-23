@@ -21,7 +21,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware' => 'localization'], function
     Route::post('/comment','UserController@Comment');
     Route::post('/app_update','UserController@app_update');
     Route::post('/update_course','UserController@update_course');
-    Route::post('/course','UserController@course');
+    Route::post('/course_list','UserController@course_list');
 
 
 

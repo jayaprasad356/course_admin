@@ -274,25 +274,19 @@ public function session_list(Request $request)
     ], 200);
 }
 //my course list
-public function my_course_list($user_id)
+//sessionlist
+public function my_course_list(Request $request)
 {
-    $user = User::find($user_id);
+    $user_id = $request->input('user_id');
 
-    if (!$user) {
+    if (empty($user_id)) {
         return response()->json([
             'success' => false,
-            'message' => 'User not found',
-        ], 404);
+            'message' => 'User ID is empty',
+        ], 400);
     }
 
-    $courses = $user->courses;
-
-    if ($courses->isEmpty()) {
-        return response()->json([
-            'success' => false,
-            'message' => 'No courses found for the given user ID',
-        ], 404);
-    }
+    $courses = Course::where('user_id', $user_id)->get();
 
     $responseData = [];
 
@@ -306,10 +300,9 @@ public function my_course_list($user_id)
             'image' => asset('storage/app/public/course/' . $courseDetails['image']),
         ];
     }
-
     return response()->json([
-        'success' => true,
-        'message' => 'Courses listed successfully',
+        "success" => true,
+        'message' => 'course listed successfully',
         'data' => $responseData,
     ], 200);
 }

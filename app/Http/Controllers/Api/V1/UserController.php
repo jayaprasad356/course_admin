@@ -285,7 +285,16 @@ public function my_course_list(Request $request)
         ], 400);
     }
 
-    $courses = Course::where('user_id', $user_id)->get();
+    $user = User::find($user_id);
+
+    if (!$user) {
+        return response()->json([
+            'success' => false,
+            'message' => 'User not found',
+        ], 404);
+    }
+
+    $courses = $user->courses;
 
     if ($courses->isEmpty()) {
         return response()->json([

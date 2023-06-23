@@ -288,6 +288,13 @@ public function my_course_list(Request $request)
 
     $courses = Course::where('user_id', $user_id)->get();
 
+    if ($courses->isEmpty()) {
+        return response()->json([
+            'success' => false,
+            'message' => 'No courses found for the given user ID',
+        ], 404);
+    }
+
     $responseData = [];
 
     foreach ($courses as $course) {
@@ -300,9 +307,10 @@ public function my_course_list(Request $request)
             'image' => asset('storage/app/public/course/' . $courseDetails['image']),
         ];
     }
+
     return response()->json([
         "success" => true,
-        'message' => 'course listed successfully',
+        'message' => 'Courses listed successfully',
         'data' => $responseData,
     ], 200);
 }

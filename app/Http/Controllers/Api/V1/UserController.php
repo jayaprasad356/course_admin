@@ -110,7 +110,7 @@ public function Register(Request $request)
     ], 201);
 }
 public function update_profile(Request $request)
-{    
+{
     $user_id = $request->input('user_id');
     if (empty($user_id)) {
         return response()->json([
@@ -144,7 +144,6 @@ public function update_profile(Request $request)
         $userDetails = [
             'name' => $user->name,
             'mobile' => $user->mobile,
-            'password' => $user->password,
             'email' => $user->email,
         ];
 
@@ -157,7 +156,7 @@ public function update_profile(Request $request)
         return response()->json([
             'success' => false,
             'message' => 'User not found',
-        ], 400);
+        ], 404);
     }
 }
 

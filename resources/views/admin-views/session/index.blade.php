@@ -2,11 +2,11 @@
 
 @section('title', translate('Add new session'))
 <style>
-    .password-container{
+    .password-container {
         position: relative;
     }
 
-    .togglePassword{
+    .togglePassword {
         position: absolute;
         top: 14px;
         right: 16px;
@@ -29,42 +29,43 @@
         <!-- End Page Header -->
         <div class="row gx-2 gx-lg-3">
             <div class="col-sm-12 col-lg-12 mb-3 mb-lg-2">
-                <form action="{{route('admin.session.store')}}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('admin.session.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-8 col-12">
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('name')}}<i class="text-danger asterik">*</i></label>
-                                <input type="text" name="name" class="form-control" placeholder="{{translate('session Name')}}"
-                                       required>
+                                <input type="text" name="name" class="form-control" placeholder="{{translate('session Name')}}" required>
                             </div>
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{ translate('course') }}<i class="text-danger asterik">*</i></label>
                                 <select name="course_id" class="form-control" required>
-    <option value="">{{ translate('Select a course') }}</option>
-    @foreach($courses as $course)
-        <option value="{{ $course->id }}">{{ $course->author }}</option>
-    @endforeach
-</select>
-
+                                    <option value="">{{ translate('Select a course') }}</option>
+                                    @foreach($courses as $course)
+                                        <option value="{{ $course->id }}">{{ $course->author }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('video_link')}}<i class="text-danger asterik">*</i></label>
-                                <input type="text" name="video_link" class="form-control" placeholder="{{translate('session video_link')}}"
-                                       required>
+                                <input type="text" name="video_link" class="form-control" placeholder="{{translate('session video_link')}}" required>
                             </div>
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('description')}}<i class="text-danger asterik">*</i></label>
-                                <input type="text" name="description" class="form-control" placeholder="{{translate('session description')}}"
-                                       required>
+                                <input type="text" name="description" class="form-control" placeholder="{{translate('session description')}}" required>
                             </div>
-                    <button type="submit" class="btn btn-primary">{{translate('submit')}}</button>
-                    <input type="reset" onClick="refreshPage()" class="btn-warning btn" value="Clear" />
+                            <div class="form-group">
+                                <label class="input-label">{{ translate('Videos') }}</label>
+                                <input type="file" name="videos[]" class="form-control" multiple>
+                            </div>
+                            <button type="submit" class="btn btn-primary">{{translate('submit')}}</button>
+                            <input type="reset" onClick="refreshPage()" class="btn-warning btn" value="Clear" />
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
-
 @endsection
 
 @push('script_2')
@@ -74,7 +75,7 @@
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
-                    $('#'+viewer_id).attr('src', e.target.result);
+                    $('#' + viewer_id).attr('src', e.target.result);
                 }
 
                 reader.readAsDataURL(input.files[0]);
@@ -92,17 +93,22 @@
         });
     </script>
     <script>
-         $('#btnClear').on('click', function() {
-        for (instance in CKEDITOR.instances) {
-            CKEDITOR.instances[instance].setData('');
-        }
-        }); 
+        $('#btnClear').on('click', function () {
+            for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].setData('');
+            }
+        });
     </script>
     <script>
         // Update label with selected file name
-        $('input[type="file"]').change(function(e){
-            var fileName = e.target.files[0].name;
-            $(this).next('.custom-file-label').html(fileName);
+        $('input[type="file"]').change(function (e) {
+            var files = e.target.files;
+            var label = $(this).next('.custom-file-label');
+            if (files.length > 1) {
+                label.html(files.length + ' ' + '{{ translate("files selected") }}');
+            } else {
+                label.html(files[0].name);
+            }
         });
-   </script>
+    </script>
 @endpush

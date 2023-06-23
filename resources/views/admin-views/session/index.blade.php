@@ -49,9 +49,7 @@
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{ translate('video_link') }}<i class="text-danger asterik">*</i></label>
                                 <input type="text" name="video_link[]" class="form-control" placeholder="{{ translate('session video_link') }}" required>
-                            </div>
-                            <div id="video-link-container"></div>
-                            <button type="button" class="btn btn-primary mb-3" onclick="addVideoLinkField()">{{ translate('Add Video Link') }}</button>
+</div>
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{ translate('description') }}<i class="text-danger asterik">*</i></label>
                                 <input type="text" name="description" class="form-control" placeholder="{{ translate('session description') }}" required>

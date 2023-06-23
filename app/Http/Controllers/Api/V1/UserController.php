@@ -211,16 +211,16 @@ public function update_course(Request $request)
 //courselist
 public function course_list(Request $request)
 {
-    $user_id = $request->input('user_id');
+    $course_id = $request->input('course_id');
 
-    if (empty($user_id)) {
+    if (empty($course_id)) {
         return response()->json([
             'success' => false,
-            'message' => 'User Id is Empty',
+            'message' => 'course id is Empty',
         ], 400);
     }
 
-    $courses = Course::where('user_id', $user_id)->get();
+    $courses = Course::where('course_id', $course_id)->get();
 
     if (count($courses) >= 1) {
         return response()->json([

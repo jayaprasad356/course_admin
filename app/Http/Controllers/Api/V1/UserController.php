@@ -220,18 +220,27 @@ public function course_list(Request $request)
         ], 400);
     }
 
-    $courses = Course::where('id', $course_id)->get();
+    $course = Course::find($course_id);
 
-    if (count($courses) >= 1) {
+    if ($course) {
+        $courseDetails = $course->toArray();
+
+        $imagePath = asset('storage/app/public/user/' . $course->image);
+
+        $responseData = [
+            'name' => $courseDetails['name'],
+            'image' => $imagePath,
+        ];
+
         return response()->json([
             "success" => true,
-            'message' => 'Courses listed successfully',
-            'data' => $courses,
+            'message' => 'Course listed successfully',
+            'data' => $responseData,
         ], 200);
     } else {
         return response()->json([
             "success" => false,
-            'message' => "No courses found",
+            'message' => "Course not found",
         ], 404);
     }
 }

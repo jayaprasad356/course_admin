@@ -274,17 +274,8 @@ public function session_list(Request $request)
     ], 200);
 }
 //my course list
-public function my_course_list(Request $request)
+public function my_course_list($user_id)
 {
-    $user_id = $request->input('user_id');
-
-    if (empty($user_id)) {
-        return response()->json([
-            'success' => false,
-            'message' => 'User ID is empty',
-        ], 400);
-    }
-
     $user = User::find($user_id);
 
     if (!$user) {

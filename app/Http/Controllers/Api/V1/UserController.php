@@ -137,7 +137,7 @@ public function Register(Request $request)
     }
 
 // course update details
-public function update_course_details(Request $request)
+public function update_course(Request $request)
 {
     $course_id = $request->input('course_id');
     if (empty($course_id)) {

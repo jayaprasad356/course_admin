@@ -112,53 +112,38 @@ public function Register(Request $request)
 public function update_profile(Request $request)
 {
     $user_id = $request->input('user_id');
+
     if (empty($user_id)) {
         return response()->json([
             'success' => false,
             'message' => 'User ID is empty',
-        ], 200);
+        ], 400);
     }
 
     $user = User::find($user_id);
 
-    if ($user) {
-        // Validate the request data
-        $validatedData = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email',
-            'mobile' => 'required|string',
-            'password' => 'required|string',
-            // Add more validation rules as needed
-        ]);
-
-        // Update the user profile based on the validated request data
-        $user->name = $validatedData['name'];
-        $user->email = $validatedData['email'];
-        $user->mobile = $validatedData['mobile'];
-        $user->password = bcrypt($validatedData['password']); // Hash the password
-
-        // Save the updated user
-        $user->save();
-
-        // Return the updated user details
-        $userDetails = [
-            'name' => $user->name,
-            'mobile' => $user->mobile,
-            'email' => $user->email,
-        ];
-
-        return response()->json([
-            'success' => true,
-            'message' => 'User profile updated successfully',
-            'data' => $userDetails,
-        ], 201);
-    } else {
+    if (!$user) {
         return response()->json([
             'success' => false,
             'message' => 'User not found',
         ], 404);
     }
+
+    // Update user details based on the request data
+    $user->name = $request->input('name');
+    $user->email = $request->input('email');
+    // Add more fields to update as needed
+
+    // Save the updated user details
+    $user->save();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'User details updated successfully',
+        'data' => $user,
+    ], 200);
 }
+
 
   
   

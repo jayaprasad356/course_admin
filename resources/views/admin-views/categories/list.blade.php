@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 
-@section('title', translate('categoriess List'))
+@section('title', translate('Categories List'))
 
 @push('css_or_js')
     <meta name="csrf-token" content="{{ csrf_token() }}">

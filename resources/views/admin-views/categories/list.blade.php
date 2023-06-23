@@ -56,7 +56,7 @@
                             <thead class="thead-light">
                             <tr>
                                 <th>{{translate('ID')}}</th>
-                                <th >{{translate('name')}}</th>
+                                <th>{{translate('name')}}</th>
                                 <th>{{translate('action')}}</th>
                             </tr>
                             </thead>
@@ -167,9 +167,6 @@
                     .search(this.value)
                     .draw();
             });
-
-       
-
 
             // INITIALIZATION OF SELECT2
             // =======================================================

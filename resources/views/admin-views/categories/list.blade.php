@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 
-@section('title', translate('Categories List'))
+@section('title', translate('categoriess List'))
 
 @push('css_or_js')
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -13,7 +13,7 @@
             <div class="row align-items-center">
                 <div class="col-sm mb-2 mb-sm-0 row">
                     <div class="col-12 col-sm-6">
-                        <h1 class=""><i class="tio-filter-list"></i> {{translate('categories')}} {{translate('list')}}</h1>
+                        <h1 class=""><i class="tio-filter-list"></i> {{translate('categoriess')}} {{translate('list')}}</h1>
                     </div>
                     <div class="col-12 col-sm-6 text-sm-right text-left">
                         <a href="{{route('admin.categories.add')}}" class="btn btn-primary pull-right"><i
@@ -30,8 +30,8 @@
                     <!-- Header -->
                     <div class="card-header flex-between">
                         <div class="flex-start">
-                            <h5 class="card-header-title">{{translate('Categories Table')}}</h5>
-                            <h5 class="card-header-title text-primary mx-1">({{ $categories->total() }})</h5>
+                            <h5 class="card-header-title">{{translate('categoriess Table')}}</h5>
+                            <h5 class="card-header-title text-primary mx-1">({{ $categoriess->total() }})</h5>
                         </div>
                         <div>
                             <form action="{{url()->current()}}" method="GET">
@@ -56,18 +56,18 @@
                             <thead class="thead-light">
                             <tr>
                                 <th>{{translate('ID')}}</th>
-                                <th>{{translate('Name')}}</th>
-                                <th>{{translate('Action')}}</th>
+                                <th >{{translate('name')}}</th>
+                                <th>{{translate('action')}}</th>
                             </tr>
                             </thead>
 
                             <tbody id="set-rows">
-                            @foreach($categories as $key=>$category)
+                            @foreach($categoriess as $key=>$categories)
                                 <tr>
-                                    <td> {{$category->id}}</td>
+                                    <td> {{$categories['id']}}</td>
                                     <td>
                                         <span class="d-block font-size-sm text-body">
-                                            {{$category->name}}
+                                            {{$categories['name']}}
                                         </span>
                                     </td>
                                     <td>
@@ -80,13 +80,13 @@
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a class="dropdown-item"
-                                                   href="{{route('admin.categories.edit', [$category->id])}}"> <i class="tio-edit"></i>{{translate('edit')}}</a>
+                                                   href="{{route('admin.categories.edit',[$categories['id']])}}"> <i class="tio-edit"></i>{{translate('edit')}}</a>
                                                 <a class="dropdown-item"
-                                                   href="{{route('admin.categories.preview', [$category->id])}}"> <i class="tio-file"></i>{{translate('view')}}</a>
+                                                   href="{{route('admin.categories.preview',[$categories['id']])}}"> <i class="tio-file"></i>{{translate('view')}}</a>
                                                 <a class="dropdown-item" href="javascript:"
-                                                   onclick="form_alert('categories-{{$category->id}}','{{translate('Want to remove this information?')}}')"><i class="tio-remove-from-trash"></i>{{translate('delete')}}</a>
-                                                <form action="{{route('admin.categories.delete', [$category->id])}}"
-                                                      method="post" id="categories-{{$category->id}}">
+                                                   onclick="form_alert('categories-{{$categories['id']}}','{{translate('Want to remove this information ?')}}')"><i class="tio-remove-from-trash"></i>{{translate('delete')}}</a>
+                                                <form action="{{route('admin.categories.delete',[$categories['id']])}}"
+                                                      method="post" id="categories-{{$categories['id']}}">
                                                     @csrf @method('delete')
                                                 </form>
                                             </div>
@@ -101,7 +101,7 @@
                         <div class="page-area">
                             <table>
                                 <tfoot>
-                                {!! $categories->links() !!}
+                                {!! $categoriess->links() !!}
                                 </tfoot>
                             </table>
                         </div>
@@ -167,6 +167,9 @@
                     .search(this.value)
                     .draw();
             });
+
+       
+
 
             // INITIALIZATION OF SELECT2
             // =======================================================

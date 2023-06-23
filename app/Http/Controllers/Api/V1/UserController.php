@@ -140,7 +140,7 @@ public function Register(Request $request)
 public function update_course(Request $request)
 {
     $course_id = $request->input('course_id');
-    $user_id = $request->input('user_id');
+  
     $name = $request->input('name');
 
     if (empty($course_id)) {
@@ -150,12 +150,7 @@ public function update_course(Request $request)
         ], 200);
     }
 
-    if (empty($user_id)) {
-        return response()->json([
-            'success' => false,
-            'message' => 'User ID is empty',
-        ], 200);
-    }
+   
 
     $course = Course::find($course_id);
 

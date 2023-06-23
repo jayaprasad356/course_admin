@@ -223,25 +223,16 @@ public function course_list(Request $request)
 
     $course = Course::find($course_id);
 
-    if ($course) {
-        $courseDetails = $course->toArray();
-
-        $responseData = [
-            'id' => $courseDetails['id'],
-            'author' => $courseDetails['author'],
-            'course_title' => $courseDetails['course_title'],
-            'image' => asset('storage/app/public/couse/' . $course->image),
-        ];
-
+    if (count($course)) {
         return response()->json([
             "success" => true,
-            'message' => 'Course listed successfully',
-            'data' => [$responseData],
+            'message' => 'course listed successfully',
+            'data' => $course,
         ], 200);
     } else {
         return response()->json([
             "success" => false,
-            'message' => "Course not found",
+            'message' => "No course found ",
         ], 404);
     }
 }

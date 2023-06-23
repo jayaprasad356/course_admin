@@ -71,7 +71,7 @@
                                                 {{$session['name']}}
                                             </span>
                                         </td>
-                                        <td>{{$session->course->name}}</td>
+                                        <td>{{$session->course->author}}</td>
                                         <td>{{$session['video_link']}}</td>
                                         <td>{{$session['description']}}</td>
                                         <td>

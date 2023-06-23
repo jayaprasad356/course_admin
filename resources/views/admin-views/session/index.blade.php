@@ -43,7 +43,7 @@
                                 <select name="course_id" class="form-control" required>
     <option value="">{{ translate('Select a course') }}</option>
     @foreach($courses as $course)
-        <option value="{{ $course->id }}">{{ $course->name }}</option>
+        <option value="{{ $course->id }}">{{ $course->author }}</option>
     @endforeach
 </select>
 

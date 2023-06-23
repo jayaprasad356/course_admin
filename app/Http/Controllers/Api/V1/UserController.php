@@ -231,7 +231,7 @@ public function course_list(Request $request)
             'id' => $courseDetails['id'],
             'author' => $courseDetails['author'],
             'course_title' => $courseDetails['course_title'],
-            'image' => asset('storage/app/public/course/' . $course->image),
+            'image' => asset('storage/app/public/user/' . $courseDetails->image),
         ];
 
         return response()->json([

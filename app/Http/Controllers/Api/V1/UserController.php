@@ -268,9 +268,9 @@ public function session_list(Request $request)
 
         $responseData[] = [
             'id' => $sessionDetails['id'],
+            'title' => $sessionDetails['title'],
             'video_link' => $sessionDetails['video_link'],
-            'description' => $sessionDetails['description'],
-            'course_id' => $sessionDetails['course_id'],
+            'video_duration' => $sessionDetails['video_duration'],
         ];
     }
 

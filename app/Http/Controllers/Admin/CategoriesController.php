@@ -2,27 +2,27 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
-use App\Models\Categories;
+use App\Model\categories;
+use App\Model\Comment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Brian2694\Toastr\Facades\Toastr;
 
 class CategoriesController extends Controller
 {
     public function index()
     {
-        return view('admin.categories.index');
+        return view('admin-views.categories.index');
     }
 
     public function list(Request $request)
     {
         $query_param = [];
         $search = $request['search'];
-
         if ($request->has('search')) {
             $key = explode(' ', $request['search']);
-            $categories = Categories::where(function ($q) use ($key) {
+            $categories = categories::where(function ($q) use ($key) {
                 foreach ($key as $value) {
                     $q->orWhere('name', 'like', "%{$value}%")
                         ->orWhere('sub_name', 'like', "%{$value}%")
@@ -34,17 +34,17 @@ class CategoriesController extends Controller
             });
             $query_param = ['search' => $request['search']];
         } else {
-            $categories = new Categories();
+            $categories = new categories();
         }
 
         $categoriess = $categories->latest()->paginate(Helpers::getPagination())->appends($query_param);
-        return view('admin.categories.list', compact('categoriess', 'search'));
+        return view('admin-views.categories.list', compact('categoriess', 'search'));
     }
 
     public function preview($id)
     {
-        $categories = Categories::find($id);
-        return view('admin.categories.view', compact('categories'));
+        $categories = categories::where(['id' => $id])->first();
+        return view('admin-views.categories.view', compact('categories'));
     }
 
     public function store(Request $request)
@@ -53,7 +53,7 @@ class CategoriesController extends Controller
             'name' => 'required',
         ]);
 
-        $categories = new Categories();
+        $categories = new categories();
         $categories->name = $request->name;
         $categories->save();
 
@@ -63,13 +63,13 @@ class CategoriesController extends Controller
 
     public function edit($id)
     {
-        $categories = Categories::find($id);
-        return view('admin.categories.edit', compact('categories'));
+        $categories = categories::find($id);
+        return view('admin-views.categories.edit', compact('categories'));
     }
 
     public function update(Request $request, $id)
     {
-        $categories = Categories::find($id);
+        $categories = categories::find($id);
         $categories->name = $request->name;
         $categories->save();
 
@@ -79,7 +79,7 @@ class CategoriesController extends Controller
 
     public function delete(Request $request)
     {
-        $categories = Categories::find($request->id);
+        $categories = categories::find($request->id);
         if (Storage::disk('public')->exists('categories/' . $categories['image'])) {
             Storage::disk('public')->delete('categories/' . $categories['image']);
         }

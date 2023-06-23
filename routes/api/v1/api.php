@@ -17,6 +17,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware' => 'localization'], function
     Route::post('/signup', 'UserController@Signup');
     Route::post('/register', 'UserController@Register');
     Route::post('/userdetails', 'UserController@user_details');
+    Route::post('/update_profile', 'UserController@update_profile');
     Route::post('login','UserController@login');
     Route::post('/comment','UserController@Comment');
     Route::post('/app_update','UserController@app_update');

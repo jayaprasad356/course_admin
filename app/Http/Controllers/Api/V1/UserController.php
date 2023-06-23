@@ -109,6 +109,41 @@ public function Register(Request $request)
         'data' => $user,
     ], 201);
 }
+  //update profile
+  public function update_profile(Request $request)
+  {    
+      $user_id = $request->input('user_id');
+      if (empty($user_id)) {
+          return response()->json([
+              'success' => false,
+              'message' => 'User Id is Empty',
+          ], 200);
+      }
+      
+      $user = User::find($user_id);
+      if ($user) {
+          // Update the user profile based on the request data
+          $user->name = $request->input('name');
+          $user->email = $request->input('email');
+          $user->mobile = $request->input('mobile');
+          $user->password = $request->input('password');
+          
+          // Save the updated user
+          $user->save();
+          
+          return response()->json([
+              'success' => true,
+              'message' => 'User profile updated successfully',
+              'data' => $user,
+          ], 201);
+      } else {
+          return response()->json([
+              'success' => false,
+              'message' => 'User Not Found',
+          ], 400);
+      }
+  }
+  
     
   //userdetails
     public function user_details(Request $request)

@@ -35,8 +35,8 @@
                     <div class="row">
                         <div class="col-md-8 col-12">
                             <div class="form-group">
-                                <label class="input-label" for="exampleFormControlInput1">{{translate('name')}}</label>
-                                <input type="text" value="{{$session['name']}}" name="name"
+                                <label class="input-label" for="exampleFormControlInput1">{{translate('title')}}</label>
+                                <input type="text" value="{{$session['title']}}" name="title"
                                        class="form-control" required>
                             </div>
                             <div class="form-group">

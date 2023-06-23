@@ -77,7 +77,7 @@ class sessionController extends Controller
         
 
         $session = new session();
-        $session->name = $request->name;
+        $session->title = $request->title;
         $session->course_id = $request->course_id;
         $session->video_link = $request->video_link;
         $session->description = $request->description;
@@ -99,7 +99,7 @@ class sessionController extends Controller
        
 
         $session = session::find($id);
-        $session->name = $request->name;
+        $session->title = $request->title;
         $session->course_id = $request->course_id;
         $session->video_link = $request->video_link;
         $session->description = $request->description;

@@ -224,15 +224,24 @@ public function course_list(Request $request)
     $course = Course::find($course_id);
 
     if ($course) {
+        $courseDetails = $course->toArray();
+
+        $responseData = [
+            'id' => $courseDetails['id'],
+            'author' => $courseDetails['author'],
+            'course_title' => $courseDetails['course_title'],
+            'image' => asset('storage/app/public/course/' . $course->image),
+        ];
+
         return response()->json([
             "success" => true,
             'message' => 'Course listed successfully',
-            'data' => $course,
+            'data' => $responseData,
         ], 200);
     } else {
         return response()->json([
             "success" => false,
-            'message' => "No course found",
+            'message' => "Course not found",
         ], 404);
     }
 }

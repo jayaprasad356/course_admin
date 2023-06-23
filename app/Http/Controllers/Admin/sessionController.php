@@ -74,26 +74,19 @@ class sessionController extends Controller
 
     public function store(Request $request)
     {
-        $session = new Session();
+        
+
+        $session = new session();
         $session->name = $request->name;
         $session->course_id = $request->course_id;
+        $session->video_link = $request->video_link;
         $session->description = $request->description;
         $session->save();
-    
-        $videos = $request->file('videos');
-    
-        foreach ($videos as $video) {
-            $videoPath = $video->store('videos', 'public');
-            $sessionVideo = new SessionVideo();
-            $sessionVideo->session_id = $session->id;
-            $sessionVideo->video_path = $videoPath;
-            $sessionVideo->save();
-        }
-    
-        Toastr::success(translate('Session added successfully!'));
+
+        Toastr::success(translate('session added successfully!'));
         return redirect('admin/session/list');
     }
-    
+
     public function edit($id)
     {
         $session = session::find($id);

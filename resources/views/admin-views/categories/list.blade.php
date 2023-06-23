@@ -13,7 +13,7 @@
             <div class="row align-items-center">
                 <div class="col-sm mb-2 mb-sm-0 row">
                     <div class="col-12 col-sm-6">
-                        <h1 class=""><i class="tio-filter-list"></i> {{translate('categories')}} {{translate('list')}}</h1>
+                        <h1 class=""><i class="tio-filter-list"></i> {{translate('categoriess')}} {{translate('list')}}</h1>
                     </div>
                     <div class="col-12 col-sm-6 text-sm-right text-left">
                         <a href="{{route('admin.categories.add')}}" class="btn btn-primary pull-right"><i
@@ -30,8 +30,8 @@
                     <!-- Header -->
                     <div class="card-header flex-between">
                         <div class="flex-start">
-                            <h5 class="card-header-title">{{translate('categories Table')}}</h5>
-                            <h5 class="card-header-title text-primary mx-1">({{ $categories->total() }})</h5>
+                            <h5 class="card-header-title">{{translate('categoriess Table')}}</h5>
+                            <h5 class="card-header-title text-primary mx-1">({{ $categoriess->total() }})</h5>
                         </div>
                         <div>
                             <form action="{{url()->current()}}" method="GET">
@@ -56,7 +56,7 @@
                             <thead class="thead-light">
                             <tr>
                                 <th>{{translate('ID')}}</th>
-                                <th>{{translate('name')}}</th>
+                                <th >{{translate('name')}}</th>
                                 <th>{{translate('action')}}</th>
                             </tr>
                             </thead>
@@ -101,7 +101,7 @@
                         <div class="page-area">
                             <table>
                                 <tfoot>
-                                {!! $categories->links() !!}
+                                {!! $categoriess->links() !!}
                                 </tfoot>
                             </table>
                         </div>
@@ -167,6 +167,9 @@
                     .search(this.value)
                     .draw();
             });
+
+       
+
 
             // INITIALIZATION OF SELECT2
             // =======================================================

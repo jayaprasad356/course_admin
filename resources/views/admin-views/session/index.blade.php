@@ -48,7 +48,8 @@
                             </div>
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{ translate('video_link') }}<i class="text-danger asterik">*</i></label>
-                                <input type="text" name="video_link[]" class="form-control" placeholder="{{ translate('session video_link') }}" required>
+                                <input type="file" name="videos[]" class="form-control" multiple required>
+
 </div>
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{ translate('description') }}<i class="text-danger asterik">*</i></label>

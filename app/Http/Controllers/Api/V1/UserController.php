@@ -221,13 +221,13 @@ public function course_list(Request $request)
         ], 400);
     }
 
-    $course = Course::find($course_id);
+    $courses = Course::find($course_id);
 
-    if (count($course)) {
+    if (count($courses)) {
         return response()->json([
             "success" => true,
             'message' => 'course listed successfully',
-            'data' => $course,
+            'data' => $courses,
         ], 200);
     } else {
         return response()->json([

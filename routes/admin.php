@@ -226,15 +226,16 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     });
 
     Route::group(['prefix' => 'categories', 'as' => 'categories.', 'middleware' => ['module:categories_management']], function () {
-        Route::get('add', 'categoriesController@index')->name('add');
-        Route::post('store', 'categoriesController@store')->name('store');
-        Route::get('list', 'categoriesController@list')->name('list');
-        Route::get('preview/{id}', 'categoriesController@preview')->name('preview');
-        Route::get('edit/{id}', 'categoriesController@edit')->name('edit');
-        Route::post('update/{id}', 'categoriesController@update')->name('update');
-        Route::delete('delete/{id}', 'categoriesController@delete')->name('delete');
-        Route::post('search', 'categoriesController@search')->name('search');
+        Route::get('add', 'CategoriesController@index')->name('add');
+        Route::post('store', 'CategoriesController@store')->name('store');
+        Route::get('list', 'CategoriesController@list')->name('list');
+        Route::get('preview/{id}', 'CategoriesController@preview')->name('preview');
+        Route::get('edit/{id}', 'CategoriesController@edit')->name('edit');
+        Route::post('update/{id}', 'CategoriesController@update')->name('update');
+        Route::delete('delete/{id}', 'CategoriesController@delete')->name('delete');
+        Route::post('search', 'CategoriesController@search')->name('search');
     });
+    
 
     Route::get('list', 'OrderController@list')->name('list');
     Route::post('search', 'OrderController@search')->name('search');

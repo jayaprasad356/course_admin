@@ -86,7 +86,7 @@ public function Register(Request $request)
     $confirmPassword = $request->input('confirm_password');
     $referCode = Str::random(8); // Generate a random refer code
 
-    $existingUser = User::where('email', $email)->first();
+    $existingUser = User::where('mobile', $mobile)->first();
     if ($existingUser) {
         return response()->json([
             'success' => false,
@@ -209,33 +209,31 @@ public function update_course(Request $request)
     
     
 //courselist
-public function course(Request $request)
-{
-    $course = Course::first(); // Assuming 'Course' is the correct model name
-
-    if ($course) {
-        $courseDetails = $course->toArray();
-
-        $imagePath = asset('storage/app/public/course/' . $course->image); // Assuming the 'image' column stores the image filename
-
-        $responseData = [
-            'name' => $courseDetails['name'], // Assuming 'name' is the column that stores the course name
-            'image' => $imagePath,
-            'user_id' => $courseDetails['user_id'], // Assuming 'user_id' is the column that stores the user ID associated with the course
-        ];
-
+public function course_list(Request $request)
+{    
+    $user_id = $request->input('user_id');
+    if(empty($user_id)){
         return response()->json([
-            "success" => true,
-            'message' => 'Course listed successfully',
-            'data' => $responseData,
+            'success'=>false,
+            'message' => 'User Id is Empty',
         ], 200);
-    } else {
+    }
+    $courses = Course::where('id', $request->input('user_id'))->get();
+    if (count($course)>=1) {
         return response()->json([
-            "success" => false,
-            'message' => "Course not found",
-        ], 404);
+           "success" => true ,
+            'message' => 'course listed Successfully',
+            'data' =>$course,
+        ], 201);
+    }
+    else{
+        return response()->json([
+                "success" => false ,
+                'message'=> "course Not Found",
+              ], 400);
     }
 }
+
 
 /*public function enrolled_course(Request $request)
 {

@@ -71,21 +71,25 @@ class sessionController extends Controller
         $session = session::where(['id' => $id])->first();
         return view('admin-views.session.view', compact('session'));
     }
-
     public function store(Request $request)
     {
-        
-
-        $session = new session();
+        $session = new Session();
         $session->name = $request->name;
         $session->course_id = $request->course_id;
-        $session->video_link = $request->video_link;
         $session->description = $request->description;
         $session->save();
-
-        Toastr::success(translate('session added successfully!'));
+    
+        $videoLink = $request->input('video_link');
+    
+        $sessionVideo = new SessionVideo();
+        $sessionVideo->session_id = $session->id;
+        $sessionVideo->video_link = $videoLink;
+        $sessionVideo->save();
+    
+        Toastr::success(translate('Session added successfully!'));
         return redirect('admin/session/list');
     }
+    
 
     public function edit($id)
     {

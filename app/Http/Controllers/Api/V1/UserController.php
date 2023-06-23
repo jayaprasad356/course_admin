@@ -109,49 +109,58 @@ public function Register(Request $request)
         'data' => $user,
     ], 201);
 }
-  //update profile
-  public function update_profile(Request $request)
-  {
-      $user_id = $request->input('user_id');
-      if (empty($user_id)) {
-          return response()->json([
-              'success' => false,
-              'message' => 'User ID is empty',
-          ], 200);
-      }
-      
-      $user = User::find($user_id);
-      if ($user) {
-          // Validate the request data
-          $validatedData = $request->validate([
-              'name' => 'required|string',
-              'email' => 'required|email',
-              'mobile' => 'required|string',
-              'password' => 'required|string',
-              // Add more validation rules as needed
-          ]);
-          
-          // Update the user profile based on the validated request data
-          $user->name = $validatedData['name'];
-          $user->email = $validatedData['email'];
-          $user->mobile = $validatedData['mobile'];
-          $user->password = bcrypt($validatedData['password']); // Hash the password
-          
-          // Save the updated user
-          $user->save();
-          
-          return response()->json([
-              'success' => true,
-              'message' => 'User profile updated successfully',
-              'data' => $user,
-          ], 201);
-      } else {
-          return response()->json([
-              'success' => false,
-              'message' => 'User not found',
-          ], 400);
-      }
-  }
+public function update_profile(Request $request)
+{    
+    $user_id = $request->input('user_id');
+    if (empty($user_id)) {
+        return response()->json([
+            'success' => false,
+            'message' => 'User ID is empty',
+        ], 200);
+    }
+
+    $user = User::find($user_id);
+
+    if ($user) {
+        // Validate the request data
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'mobile' => 'required|string',
+            'password' => 'required|string',
+            // Add more validation rules as needed
+        ]);
+
+        // Update the user profile based on the validated request data
+        $user->name = $validatedData['name'];
+        $user->email = $validatedData['email'];
+        $user->mobile = $validatedData['mobile'];
+        $user->password = bcrypt($validatedData['password']); // Hash the password
+
+        // Save the updated user
+        $user->save();
+
+        // Return the updated user details
+        $userDetails = [
+            'name' => $user->name,
+            'mobile' => $user->mobile,
+            'password' => $user->password,
+            'email' => $user->email,
+        ];
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User profile updated successfully',
+            'data' => $userDetails,
+        ], 201);
+    } else {
+        return response()->json([
+            'success' => false,
+            'message' => 'User not found',
+        ], 400);
+    }
+}
+
   
   
     

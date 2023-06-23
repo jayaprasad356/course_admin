@@ -137,20 +137,15 @@ public function Register(Request $request)
     }
 
 // course update details
-public function update_course(Request $request)
+public function update_course_details(Request $request)
 {
     $course_id = $request->input('course_id');
-  
-    $name = $request->input('name');
-
     if (empty($course_id)) {
         return response()->json([
             'success' => false,
             'message' => 'Course ID is empty',
-        ], 200);
+        ], 400);
     }
-
-   
 
     $course = Course::find($course_id);
 
@@ -161,15 +156,23 @@ public function update_course(Request $request)
         ], 404);
     }
 
+    $name = $request->input('name');
+    $image = $request->file('image');
+
     if (!empty($name)) {
         $course->name = $name;
     }
 
-    $course->user_id = $user_id;
+    if (!empty($image)) {
+        // Assuming you have a valid image upload logic
+        $imagePath = Helpers::upload('course/', 'png', $image);
+        $course->image = $imagePath;
+    }
 
     $course->save();
 
-    $courseData = [
+    $courseDetails = [
+        'id' => $course->id,
         'name' => $course->name,
         'image' => asset('storage/app/public/course/' . $course->image),
     ];
@@ -177,9 +180,10 @@ public function update_course(Request $request)
     return response()->json([
         'success' => true,
         'message' => 'Course details updated successfully',
-        'data' => $courseData,
+        'data' => $courseDetails,
     ], 200);
 }
+
 
     //app_update
     public function app_update(Request $request)

@@ -226,7 +226,7 @@ public function course_list(Request $request)
     if ($course) {
         $courseDetails = $course->toArray();
 
-        $imagePath = asset('storage/app/public/user/' . $course->image);
+        $imagePath = asset('storage/app/public/course/' . $course->image);
 
         $responseData = [
             'id' => $courseDetails['id'],

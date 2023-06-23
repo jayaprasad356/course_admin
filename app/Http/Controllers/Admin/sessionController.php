@@ -74,7 +74,7 @@ class sessionController extends Controller
 
     public function store(Request $request)
     {
-        $session = new session();
+        $session = new Session();
         $session->name = $request->name;
         $session->course_id = $request->course_id;
         $session->description = $request->description;

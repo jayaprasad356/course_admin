@@ -216,11 +216,11 @@ public function course_list(Request $request)
     if (empty($course_id)) {
         return response()->json([
             'success' => false,
-            'message' => 'course id is Empty',
+            'message' => 'Course ID is empty',
         ], 400);
     }
 
-    $courses = Course::where('course_id', $course_id)->get();
+    $courses = Course::where('id', $course_id)->get();
 
     if (count($courses) >= 1) {
         return response()->json([
@@ -235,6 +235,7 @@ public function course_list(Request $request)
         ], 404);
     }
 }
+
 
 
 /*public function enrolled_course(Request $request)

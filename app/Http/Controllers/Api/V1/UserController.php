@@ -221,21 +221,22 @@ public function course_list(Request $request)
         ], 400);
     }
 
-    $courses = Course::find($course_id);
+    $course = Course::find($course_id);
 
-    if (count($courses)) {
+    if ($course) {
         return response()->json([
             "success" => true,
-            'message' => 'course listed successfully',
-            'data' => $courses,
+            'message' => 'Course listed successfully',
+            'data' => $course,
         ], 200);
     } else {
         return response()->json([
             "success" => false,
-            'message' => "No course found ",
+            'message' => "No course found",
         ], 404);
     }
 }
+
 
 
 //sessionlist

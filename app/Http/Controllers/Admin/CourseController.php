@@ -15,11 +15,14 @@ use Illuminate\Support\Facades\DB;
 
 class courseController extends Controller
 {
-    public function index()
+  
+        public function index()
     {
-        return view('admin-views.course.index');
+        $courses = course::all(); // Fetch all courses from the database
+        
+        return view('admin-views.course.index', compact('categories'));
     }
-
+    
     public function list(Request $request)
     {
         $query_param = [];

@@ -10,6 +10,7 @@ use App\Model\User;
 use App\Model\Book;
 use App\Model\Cart;
 use App\Model\course;
+use App\Model\categories;
 use App\Model\session;
 use App\Model\app_update;
 use App\Model\enrolled_course;

@@ -68,7 +68,7 @@
                                 <tr>
                                     <td> {{$course['id']}}</td>
                                     <td> {{$course['author']}}</td>
-                                    <td>{{$course->categories->name}}</td>
+                                 
                                     <td>
                                         <div style="height: 60px; width: 60px; overflow-x: hidden;overflow-y: hidden">
                                             <img width="60" 

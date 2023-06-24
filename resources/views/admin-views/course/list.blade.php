@@ -57,6 +57,7 @@
                             <tr>
                                 <th>{{translate('ID')}}</th>
                                 <th>{{translate('Name')}}</th>
+                                <th>{{translate('category name')}}</th>
                                 <th style="width: 25%">{{translate('image')}}</th>
                                 <th>{{translate('action')}}</th>
                             </tr>
@@ -67,6 +68,7 @@
                                 <tr>
                                     <td> {{$course['id']}}</td>
                                     <td> {{$course['author']}}</td>
+                                    <td>{{$course->categories->name}}</td>
                                     <td>
                                         <div style="height: 60px; width: 60px; overflow-x: hidden;overflow-y: hidden">
                                             <img width="60" 

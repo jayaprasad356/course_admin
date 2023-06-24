@@ -76,6 +76,7 @@ class courseController extends Controller
         $course = new course();
         $course->image = Helpers::upload('course/', 'png', $request->file('image'));
         $course->name = $request->name;
+        $course->category_id = $request->category_id;
         $course->save();
 
         Toastr::success(translate('course added successfully!'));
@@ -83,10 +84,11 @@ class courseController extends Controller
     }
 
     public function edit($id)
-{
-    $course = course::find($id);
-    return view('admin-views.course.edit', compact('course'));
-}
+    {
+        $courses = course::find($id);
+        $categories = categories::pluck('name', 'id'); // Fetch all courses as options for the dropdown
+        return view('admin-views.courses.edit', compact('courses', 'categories'));
+    }
 
 
     public function update(Request $request, $id)
@@ -97,6 +99,7 @@ class courseController extends Controller
         $course->image = $request->has('image') ? Helpers::update('course/', $course->image, 'png', $request->file('image')) : $course->image;
         $course->name = $request->name;
         $course->status = $request->status;
+        $course->category_id = $request->category_id;
         $course->save();
 
         Toastr::success(translate('course Details updated successfully!'));

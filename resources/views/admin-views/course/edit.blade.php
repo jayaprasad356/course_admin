@@ -39,6 +39,14 @@
                                        class="form-control" required>
                             </div>
                         </div>
+                        <div class="form-group">
+    <label for="category_id">categories</label>
+    <select name="category_id" id="category_id" class="form-control">
+        @foreach($categories as $key => $value)
+            <option value="{{ $key }}" {{ $session->category_id == $key ? 'selected' : '' }}>{{ $value }}</option>
+        @endforeach
+    </select>
+</div>
                     <div class="col-md-6">
                             <div class="form-group">
                                 <label> {{translate('image')}}</label><small style="color: red">* ( {{translate('ratio')}} 1:1 )</small>

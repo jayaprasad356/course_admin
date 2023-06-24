@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class course extends Model
 {
-    protected $guarded = [];
-
-    public function category()
+    public function categories()
     {
         return $this->belongsTo(categories::class, 'category_id');
     }

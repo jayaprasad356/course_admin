@@ -15,11 +15,12 @@ use Illuminate\Support\Facades\DB;
 
 class courseController extends Controller
 {
-    public function index()
+   
+        public function index()
     {
-        $courses = course::all(); // Fetch all courses from the database
-        $categories = categories::all(); // Fetch all categories from the database
-        return view('admin-views.course.index', compact('courses', 'categories'));
+        $categoriess = categories::all(); // Fetch all courses from the database
+        
+        return view('admin-views.course.index', compact('categories'));
     }
     
     public function list(Request $request)
@@ -43,10 +44,8 @@ class courseController extends Controller
             $course = new course();
         }
 
-        $courses = $course->with('category')->latest()->paginate(Helpers::getPagination())->appends($query_param);
-        $categories = categories::latest()->paginate(Helpers::getPagination())->appends($query_param);
-        
-        return view('admin-views.course.list', compact('courses', 'search', 'categories'));
+        $courses = $course->with('categories')->latest()->paginate(Helpers::getPagination())->appends($query_param);
+        return view('admin-views.course.list', compact('courses', 'search'));
     }
 
     public function preview($id)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
 use App\Model\course;
+use App\Model\categories;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -41,7 +42,7 @@ class courseController extends Controller
             $course = new course();
         }
 
-        $courses = $course->latest()->paginate(Helpers::getPagination())->appends($query_param);
+        $courses = $course->with('categories')->latest()->paginate(Helpers::getPagination())->appends($query_param);
         return view('admin-views.course.list', compact('courses', 'search'));
     }
 
@@ -87,7 +88,7 @@ class courseController extends Controller
     {
         $courses = course::find($id);
         $categories = categories::pluck('name', 'id'); // Fetch all courses as options for the dropdown
-        return view('admin-views.courses.edit', compact('courses', 'categories'));
+        return view('admin-views.course.edit', compact('courses', 'categories'));
     }
 
 

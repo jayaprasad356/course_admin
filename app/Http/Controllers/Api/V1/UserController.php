@@ -295,6 +295,13 @@ public function session_list(Request $request)
 
     $sessions = Session::where('course_id', $course_id)->get();
 
+    if ($sessions->isEmpty()) {
+        return response()->json([
+            'success' => false,
+            'message' => 'No sessions found for the given course ID',
+        ], 404);
+    }
+
     $responseData = [];
 
     foreach ($sessions as $session) {
@@ -310,10 +317,11 @@ public function session_list(Request $request)
 
     return response()->json([
         "success" => true,
-        'message' => 'session listed successfully',
+        'message' => 'Sessions listed successfully',
         'data' => $responseData,
     ], 200);
 }
+
 //my course list
 //sessionlist
 public function my_course_list(Request $request)

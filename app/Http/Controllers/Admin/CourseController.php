@@ -15,12 +15,11 @@ use Illuminate\Support\Facades\DB;
 
 class courseController extends Controller
 {
-  
-        public function index()
+    public function index()
     {
         $courses = course::all(); // Fetch all courses from the database
-        
-        return view('admin-views.course.index', compact('categories'));
+        $categories = categories::all(); // Fetch all categories from the database
+        return view('admin-views.course.index', compact('courses', 'categories'));
     }
     
     public function list(Request $request)
@@ -37,46 +36,27 @@ class courseController extends Controller
                         ->orWhere('department', 'like', "%{$value}%")
                         ->orWhere('year', 'like', "%{$value}%")
                         ->orWhere('publication', 'like', "%{$value}%");
-
                 }
             });
             $query_param = ['search' => $request['search']];
-        }else{
+        } else {
             $course = new course();
         }
 
-        $courses = $course->with('categories')->latest()->paginate(Helpers::getPagination())->appends($query_param);
-        return view('admin-views.course.list', compact('courses', 'search'));
+        $courses = $course->with('category')->latest()->paginate(Helpers::getPagination())->appends($query_param);
+        $categories = categories::latest()->paginate(Helpers::getPagination())->appends($query_param);
+        
+        return view('admin-views.course.list', compact('courses', 'search', 'categories'));
     }
-
-    // public function search(Request $request)
-    // {
-    //     $key = explode(' ', $request['search']);
-    //     $course = course::where(function ($q) use ($key) {
-    //         foreach ($key as $value) {
-    //             $q->orWhere('name', 'like', "%{$value}%")
-    //                 ->orWhere('mobile', 'like', "%{$value}%")
-    //                 ->orWhere('email', 'like', "%{$value}%")
-    //                 ->orWhere('vehicle_number', 'like', "%{$value}%")
-    //                 ->orWhere('pincode', 'like', "%{$value}%");
-    //         }
-    //     })->get();
-    //     return response()->json([
-    //         'view' => view('admin-views.course.partials._table', compact('courses'))->render()
-    //     ]);
-    // }
-
 
     public function preview($id)
     {
-        $course = course::where(['id' => $id])->first();
+        $course = course::findOrFail($id);
         return view('admin-views.course.view', compact('course'));
     }
 
     public function store(Request $request)
     {
-        
-
         $course = new course();
         $course->image = Helpers::upload('course/', 'png', $request->file('image'));
         $course->name = $request->name;
@@ -89,17 +69,14 @@ class courseController extends Controller
 
     public function edit($id)
     {
-        $courses = course::find($id);
-        $categories = categories::pluck('name', 'id'); // Fetch all courses as options for the dropdown
-        return view('admin-views.course.edit', compact('courses', 'categories'));
+        $course = course::findOrFail($id);
+        $categories = categories::pluck('name', 'id'); // Fetch all categories as options for the dropdown
+        return view('admin-views.course.edit', compact('course', 'categories'));
     }
-
 
     public function update(Request $request, $id)
     {
-       
-
-        $course = course::find($id);
+        $course = course::findOrFail($id);
         $course->image = $request->has('image') ? Helpers::update('course/', $course->image, 'png', $request->file('image')) : $course->image;
         $course->name = $request->name;
         $course->status = $request->status;
@@ -112,7 +89,7 @@ class courseController extends Controller
 
     public function delete(Request $request)
     {
-        $course = course::find($request->id);
+        $course = course::findOrFail($request->id);
         if (Storage::disk('public')->exists('course/' . $course['image'])) {
             Storage::disk('public')->delete('course/' . $course['image']);
         }

@@ -399,9 +399,13 @@ public function add_categories(Request $request)
     return response()->json([
         'success' => true,
         'message' => 'Category added successfully',
-        'data' => $category,
+        'data' => [
+            'id' => $category->id,
+            'name' => $category->name,
+        ],
     ], 201);
 }
+
 
 
 

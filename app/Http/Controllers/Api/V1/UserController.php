@@ -367,40 +367,43 @@ public function my_course_list(Request $request)
 //add categories
 public function add_categories(Request $request)
 {
-    $category_id = $request->input('categories_id');
+    $category_id = $request->input('category_id');
     $name = $request->input('name');
 
     if (empty($category_id)) {
         return response()->json([
             'success' => false,
-            'message' => 'category id is empty',
+            'message' => 'Category ID is empty',
         ], 200);
     }
     if (empty($name)) {
         return response()->json([
             'success' => false,
-            'message' => 'name is empty',
+            'message' => 'Name is empty',
         ], 200);
     }
 
-    $categories = new categories();
-    $categories->name = $name;
-    $categories->save();
+    $existingCategory = categories::where('name', $name)->first();
 
-
-    if (empty($categories)) {
+    if ($existingCategory) {
         return response()->json([
-            'success' => true,
-            'message' => 'Categories already added',
+            'success' => false,
+            'message' => 'Category already exists',
         ], 200);
     }
+
+    $category = new categories();
+    $category->category_id = $category_id;
+    $category->name = $name;
+    $category->save();
 
     return response()->json([
         'success' => true,
-        'message' => 'Categories added successfully',
-        'data' => $categories,
+        'message' => 'Category added successfully',
+        'data' => $category,
     ], 201);
 }
+
 
 
 /*public function enrolled_course(Request $request)

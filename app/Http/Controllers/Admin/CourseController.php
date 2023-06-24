@@ -44,7 +44,7 @@ class courseController extends Controller
             $course = new course();
         }
 
-        $courses = $course->with('categories')->latest()->paginate(Helpers::getPagination())->appends($query_param);
+        $course = $course->with('categories')->latest()->paginate(Helpers::getPagination())->appends($query_param);
         return view('admin-views.course.list', compact('courses', 'search'));
     }
 

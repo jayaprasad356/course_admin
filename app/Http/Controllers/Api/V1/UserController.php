@@ -383,7 +383,9 @@ public function add_categories(Request $request)
         ], 200);
     }
 
-    $existingCategory = categories::where('name', $name)->first();
+    $existingCategory = categories::where('name', $name)
+        ->orWhere('id', $category_id)
+        ->first();
 
     if ($existingCategory) {
         return response()->json([
@@ -405,6 +407,7 @@ public function add_categories(Request $request)
         ],
     ], 201);
 }
+
 
 
 

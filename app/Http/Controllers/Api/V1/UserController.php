@@ -363,6 +363,50 @@ public function my_course_list(Request $request)
         'data' => $responseData,
     ], 200);
 }
+//add categories
+public function add_categories(Request $request)
+{
+    $category_ids = $request->input('categories_id');
+    $names = $request->input('name');
+
+    if (empty($category_ids) || empty($names)) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Category IDs or names are empty',
+        ], 200);
+    }
+
+    $categories = [];
+
+    foreach ($category_ids as $index => $category_id) {
+        $category = Category::where('id', $category_id)->first();
+
+        if ($category) {
+            // Category already exists
+            continue;
+        }
+
+        $category = new Category();
+        $category->id = $category_id;
+        $category->name = $names[$index];
+        $category->save();
+
+        $categories[] = $category;
+    }
+
+    if (empty($categories)) {
+        return response()->json([
+            'success' => true,
+            'message' => 'Categories already added',
+        ], 200);
+    }
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Categories added successfully',
+        'data' => $categories,
+    ], 201);
+}
 
 
 /*public function enrolled_course(Request $request)

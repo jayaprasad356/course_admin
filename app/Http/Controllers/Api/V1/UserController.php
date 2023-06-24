@@ -393,7 +393,6 @@ public function add_categories(Request $request)
     }
 
     $category = new categories();
-    $category->category_id = $category_id;
     $category->name = $name;
     $category->save();
 

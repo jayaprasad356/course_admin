@@ -40,7 +40,7 @@ class CourseController extends Controller
             });
             $query_param = ['search' => $request->search];
         } else {
-            $courses = Course::query();
+            $course = Course::query();
         }
         $courses = $course->with('categories')->latest()->paginate(Helpers::getPagination())->appends($query_param);
 

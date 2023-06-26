@@ -67,22 +67,22 @@
                             <tbody id="set-rows">
                             @foreach($courses as $key => $course)
                                 <tr>
-                                    <td> {{$course['id']}}</td>
-                                    <td> {{$course['author']}}</td>
+                                    <td> {{$course->id}}</td>
+                                    <td> {{$course->author}}</td>
                                     <td>{{optional($course->categories)->name}}</td>
                                     <td>
                                         <div style="height: 60px; width: 60px; overflow-x: hidden;overflow-y: hidden">
-                                            <img width="60" 
+                                            <img width="60"
                                                  onerror="this.src='{{asset('public/assets/admin/img/160x160/img1.jpg')}}'"
-                                                 src="{{asset('storage/app/public/course')}}/{{$course['image']}}">
+                                                 src="{{asset('storage/app/public/course')}}/{{$course->image}}">
                                         </div>
                                     </td>
                                     <td>
-                                        @if($course['status'] == 0)
+                                        @if($course->status == 0)
                                             <div style="margin-top:12px;">
                                                 <p class="text text-primary">{{translate('Deactive')}}</p>
                                             </div>
-                                        @elseif($course['status'] == 1)
+                                        @elseif($course->status == 1)
                                             <div style="margin-top:12px;">
                                                 <p class="text text-success">{{translate('Active')}}</p>
                                             </div>
@@ -98,13 +98,13 @@
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a class="dropdown-item"
-                                                   href="{{route('admin.course.edit',[$course['id']])}}"> <i class="tio-edit"></i>{{translate('Edit')}}</a>
+                                                   href="{{route('admin.course.edit',[$course->id])}}"> <i class="tio-edit"></i>{{translate('Edit')}}</a>
                                                 <a class="dropdown-item"
-                                                   href="{{route('admin.course.preview',[$course['id']])}}"> <i class="tio-file"></i>{{translate('View')}}</a>
+                                                   href="{{route('admin.course.preview',[$course->id])}}"> <i class="tio-file"></i>{{translate('View')}}</a>
                                                 <a class="dropdown-item" href="javascript:"
-                                                   onclick="form_alert('course-{{$course['id']}}','{{translate('Want to remove this information ?')}}')"><i class="tio-remove-from-trash"></i>{{translate('Delete')}}</a>
-                                                <form action="{{route('admin.course.delete',[$course['id']])}}"
-                                                      method="post" id="course-{{$course['id']}}">
+                                                   onclick="form_alert('course-{{$course->id}}','{{translate('Want to remove this information ?')}}')"><i class="tio-remove-from-trash"></i>{{translate('Delete')}}</a>
+                                                <form action="{{route('admin.course.delete',[$course->id])}}"
+                                                      method="post" id="course-{{$course->id}}">
                                                     @csrf @method('delete')
                                                 </form>
                                             </div>

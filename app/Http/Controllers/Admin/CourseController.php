@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
 use App\Model\course;
-use App\Model\categories;
+use App\Model\Categories;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -17,7 +17,7 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $categories = Categories::all();
+        $categories = categories::all();
         return view('admin-views.course.index', compact('categories'));
     }
 
@@ -42,7 +42,8 @@ class CourseController extends Controller
         } else {
             $course = Course::query();
         }
-        $courses = $course->with('categories')->latest()->paginate(Helpers::getPagination())->appends($query_param);
+        $courses = $course->with('category')->latest()->paginate(Helpers::getPagination())->appends($query_param);
+
         $totalCourses = $courses->total();
 
         return view('admin-views.course.list', compact('courses', 'search'));

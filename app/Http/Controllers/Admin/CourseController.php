@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
-use App\Model\Course;
+use App\Model\Courses;
 use App\Model\categories;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;

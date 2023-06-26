@@ -54,7 +54,7 @@
                             <thead class="thead-light">
                             <tr>
                                 <th>{{translate('id')}}</th>
-                                <th>{{translate('name')}}</th>
+                                <th>{{translate('title')}}</th>
                                 <th>{{translate('course name')}}</th>
                                 <th>{{translate('video_link')}}</th>
                                 <th>{{translate('description')}}</th>

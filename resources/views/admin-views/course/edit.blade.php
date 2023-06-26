@@ -1,17 +1,19 @@
 @extends('layouts.admin.app')
 
 @section('title', translate('Update course'))
+
 <style>
-    .password-container{
+    .password-container {
         position: relative;
     }
 
-    .togglePassword{
+    .togglePassword {
         position: absolute;
         top: 14px;
         right: 16px;
     }
 </style>
+
 @push('css_or_js')
 
 @endpush
@@ -27,61 +29,63 @@
             </div>
         </div>
         <!-- End Page Header -->
+
         <div class="row gx-2 gx-lg-3">
             <div class="col-sm-12 col-lg-12 mb-3 mb-lg-2">
-                <form action="{{route('admin.course.update',[$course['id']])}}" method="post"
-                      enctype="multipart/form-data">
+                <form action="{{route('admin.course.update', [$course['id']])}}" method="post" enctype="multipart/form-data">
                     @csrf
-                        <div class="col-md-6 ">
-                            <div class="form-group">
-                                <label class="input-label" for="exampleFormControlInput1">{{translate('name')}}</label>
-                                <input type="text" value="{{$course['name']}}" name="name"
-                                       class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-    <label for="category_id">categories</label>
-    <select name="category_id" id="category_id" class="form-control">
-        @foreach($categories as $key => $value)
-            <option value="{{ $key }}" {{ $session->category_id == $key ? 'selected' : '' }}>{{ $value }}</option>
-        @endforeach
-    </select>
-</div>
                     <div class="col-md-6">
-                            <div class="form-group">
-                                <label> {{translate('image')}}</label><small style="color: red">* ( {{translate('ratio')}} 1:1 )</small>
-                                <div class="custom-file">
-                                    <input type="file" name="image" id="customFileEg2" class="custom-file-input"
-                                        accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
-                                    <label class="custom-file-label" for="customFileEg2">{{translate('choose')}} {{translate('file')}}</label>
-                                </div>
-                                <center>
-                                    <img style="height: 200px;border: 1px solid; border-radius: 10px;margin-top:10px;" id="viewer2"
-                                        onerror="this.src='{{asset('public/assets/admin/img/160x160/img1.jpg')}}'"
-                                        src="{{asset('storage/app/public/course').'/'.$course['image']}}" alt="image"/>
-                                </center>
-                                <div class='col-md-8'>
-                                    <label class="control-label"> Status</label> <i class="text-danger asterik">*</i>
-                                    <br>
-                                    <div id="status" class="btn-group">
-                                        <label class="btn btn-primary" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
-                                            <input type="radio" name="status" value="0" <?= ($course['status']== 0) ? 'checked' : ''; ?>>Deactive
-                                        </label>
-                                        <label class="btn btn-success" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                            <input type="radio" name="status" value="1" <?= ($course['status'] == 1) ? 'checked' : ''; ?>> Active
-                                        </label>
-                                    </div>
-                            </div>
-                            </div>
+                        <div class="form-group">
+                            <label class="input-label" for="exampleFormControlInput1">{{translate('author')}}</label>
+                            <input type="text" value="{{$course['author']}}" name="author" class="form-control" required>
+
                         </div>
                     </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="category_id">Categories</label>
+                            <select name="category_id" id="category_id" class="form-control">
+                                @foreach($categories as $key => $value)
+                                    <option value="{{ $key }}" {{ $course->category_id == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>{{translate('image')}}</label><small style="color: red">* ( {{translate('ratio')}} 1:1 )</small>
+                            <div class="custom-file">
+                                <input type="file" name="image" id="customFileEg2" class="custom-file-input" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                <label class="custom-file-label" for="customFileEg2">{{translate('choose')}} {{translate('file')}}</label>
+                            </div>
+                            <center>
+                                <img style="height: 200px;border: 1px solid; border-radius: 10px;margin-top:10px;" id="viewer2" onerror="this.src='{{asset('public/assets/admin/img/160x160/img1.jpg')}}'" src="{{asset('storage/app/public/course').'/'.$course['image']}}" alt="image"/>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class='col-md-8'>
+                        <label class="control-label">Status</label> <i class="text-danger asterik">*</i>
+                        <br>
+                        <div id="status" class="btn-group">
+                            <label class="btn btn-primary" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
+                                <input type="radio" name="status" value="0" <?= ($course['status'] == 0) ? 'checked' : ''; ?>>Deactive
+                            </label>
+                            <label class="btn btn-success" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                <input type="radio" name="status" value="1" <?= ($course['status'] == 1) ? 'checked' : ''; ?>> Active
+                            </label>
+                       
+                    </div>
+</div>
+</div>
 </div>
                     <button type="submit" class="btn btn-primary">{{translate('submit')}}</button>
                 </form>
             </div>
         </div>
     </div>
-
 @endsection
 
 @push('script_2')
@@ -101,9 +105,11 @@
         $("#customFileEg1").change(function () {
             readURL(this, 'viewer');
         });
+
         $("#customFileEg2").change(function () {
             readURL(this, 'viewer2');
         });
+
         $("#customFileEg3").change(function () {
             readURL(this, 'viewer3');
         });
@@ -111,9 +117,9 @@
 
     <script>
         // Update label with selected file name
-        $('input[type="file"]').change(function(e){
+        $('input[type="file"]').change(function(e) {
             var fileName = e.target.files[0].name;
             $(this).next('.custom-file-label').html(fileName);
         });
-   </script>
+    </script>
 @endpush

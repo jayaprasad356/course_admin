@@ -2,33 +2,30 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
-use App\Model\course;
-use App\Model\categories;
+use App\Model\Course;
+use App\Model\Categories;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\DB;
+use App\CentralLogics\Helpers;
 
-class courseController extends Controller
+class CourseController extends Controller
 {
     public function index()
-{
-    $categoriess = categories::all(); // Fetch all courses from the database
-    
-    return view('admin-views.course.index', compact('categories'));
-}
+    {
+        $categories = Categories::all();
+        return view('admin-views.course.index', compact('categories'));
+    }
 
     public function list(Request $request)
     {
         $query_param = [];
-        $search = $request['search'];
+        $search = $request->search;
+
         if ($request->has('search')) {
-            $key = explode(' ', $request['search']);
-            $course = course::where(function ($q) use ($key) {
+            $key = explode(' ', $request->search);
+            $course = Course::where(function ($q) use ($key) {
                 foreach ($key as $value) {
                     $q->orWhere('name', 'like', "%{$value}%")
                         ->orWhere('sub_name', 'like', "%{$value}%")
@@ -36,87 +33,65 @@ class courseController extends Controller
                         ->orWhere('department', 'like', "%{$value}%")
                         ->orWhere('year', 'like', "%{$value}%")
                         ->orWhere('publication', 'like', "%{$value}%");
-
                 }
             });
-            $query_param = ['search' => $request['search']];
-        }else{
-            $course = new course();
+            $query_param = ['search' => $request->search];
+        } else {
+            $course = Course::query();
         }
 
         $courses = $course->with('categories')->latest()->paginate(Helpers::getPagination())->appends($query_param);
+        $totalCourses = $courses->total();
+
         return view('admin-views.course.list', compact('courses', 'search'));
     }
 
-    // public function search(Request $request)
-    // {
-    //     $key = explode(' ', $request['search']);
-    //     $course = course::where(function ($q) use ($key) {
-    //         foreach ($key as $value) {
-    //             $q->orWhere('name', 'like', "%{$value}%")
-    //                 ->orWhere('mobile', 'like', "%{$value}%")
-    //                 ->orWhere('email', 'like', "%{$value}%")
-    //                 ->orWhere('vehicle_number', 'like', "%{$value}%")
-    //                 ->orWhere('pincode', 'like', "%{$value}%");
-    //         }
-    //     })->get();
-    //     return response()->json([
-    //         'view' => view('admin-views.course.partials._table', compact('courses'))->render()
-    //     ]);
-    // }
-
-
     public function preview($id)
     {
-        $course = course::where(['id' => $id])->first();
+        $course = Course::where('id', $id)->first();
         return view('admin-views.course.view', compact('course'));
     }
 
     public function store(Request $request)
     {
-        
-
-        $course = new course();
+        $course = new Course();
         $course->image = Helpers::upload('course/', 'png', $request->file('image'));
-        $course->name = $request->name;
+        $course->author = $request->author;
         $course->category_id = $request->category_id;
         $course->save();
 
-        Toastr::success(translate('course added successfully!'));
+        Toastr::success(translate('Course added successfully!'));
         return redirect('admin/course/list');
     }
 
     public function edit($id)
-{
-    $course = course::find($id);
-    $categoriess = categories::pluck('name', 'id'); // Fetch all courses as options for the dropdown
-    return view('admin-views.session.edit', compact('course', 'categories'));
-}
-
+    {
+        $course = Course::find($id);
+        $categories = Categories::pluck('name', 'id');
+        return view('admin-views.course.edit', compact('course', 'categories'));
+    }
 
     public function update(Request $request, $id)
     {
-       
-
-        $course = course::find($id);
+        $course = Course::find($id);
         $course->image = $request->has('image') ? Helpers::update('course/', $course->image, 'png', $request->file('image')) : $course->image;
-        $course->name = $request->name;
+        $course->author = $request->author;
         $course->category_id = $request->category_id;
         $course->status = $request->status;
         $course->save();
 
-        Toastr::success(translate('course Details updated successfully!'));
+        Toastr::success(translate('Course details updated successfully!'));
         return redirect('admin/course/list');
     }
 
     public function delete(Request $request)
     {
-        $course = course::find($request->id);
-        if (Storage::disk('public')->exists('course/' . $course['image'])) {
-            Storage::disk('public')->delete('course/' . $course['image']);
+        $course = Course::find($request->id);
+        if (Storage::disk('public')->exists('course/' . $course->image)) {
+            Storage::disk('public')->delete('course/' . $course->image);
         }
         $course->delete();
-        Toastr::success(translate('course Removed Successfully!'));
+        Toastr::success(translate('Course removed successfully!'));
         return back();
     }
 }

@@ -33,17 +33,18 @@
                     @csrf
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="input-label" for="exampleFormControlInput1">{{translate('name')}}<i class="text-danger asterik">*</i></label>
-                                <input type="text" name="name" class="form-control" placeholder="{{translate('course Name')}}"
+                                <label class="input-label" for="exampleFormControlInput1">{{translate('author')}}<i class="text-danger asterik">*</i></label>
+                                <input type="text" name="author" class="form-control" placeholder="{{translate('course author')}}"
                                        required>
                             </div>
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{ translate('categories') }}<i class="text-danger asterik">*</i></label>
                                 <select name="category_id" class="form-control" required>
     <option value="">{{ translate('Select a categories') }}</option>
-    @foreach($categoriess as $categories)
-        <option value="{{ $categories->id }}">{{ $categories->name }}</option>
-    @endforeach
+    @foreach($categories as $category)
+    <option value="{{ $category->id }}">{{ $category->name }}</option>
+@endforeach
+
 </select>
                     <div class="row">
                         <div class="col-md-6">

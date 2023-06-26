@@ -34,8 +34,8 @@
                     <div class="row">
                         <div class="col-md-8 col-12">
                             <div class="form-group">
-                                <label class="input-label" for="exampleFormControlInput1">{{translate('name')}}<i class="text-danger asterik">*</i></label>
-                                <input type="text" name="name" class="form-control" placeholder="{{translate('session Name')}}"
+                                <label class="input-label" for="exampleFormControlInput1">{{translate('title')}}<i class="text-danger asterik">*</i></label>
+                                <input type="text" name="title" class="form-control" placeholder="{{translate('session title')}}"
                                        required>
                             </div>
                             <div class="form-group">

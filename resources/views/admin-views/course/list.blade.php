@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 
-@section('title', translate('courses List'))
+@section('title', translate('Course List'))
 
 @push('css_or_js')
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -13,11 +13,11 @@
             <div class="row align-items-center">
                 <div class="col-sm mb-2 mb-sm-0 row">
                     <div class="col-12 col-sm-6">
-                        <h1 class=""><i class="tio-filter-list"></i> {{translate('courses')}} {{translate('list')}}</h1>
+                        <h1 class=""><i class="tio-filter-list"></i> {{translate('Courses')}} {{translate('List')}}</h1>
                     </div>
                     <div class="col-12 col-sm-6 text-sm-right text-left">
                         <a href="{{route('admin.course.add')}}" class="btn btn-primary pull-right"><i
-                                class="tio-add-circle"></i> {{translate('add course')}}</a>
+                                class="tio-add-circle"></i> {{translate('Add Course')}}</a>
                     </div>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                     <!-- Header -->
                     <div class="card-header flex-between">
                         <div class="flex-start">
-                            <h5 class="card-header-title">{{translate('courses Table')}}</h5>
+                            <h5 class="card-header-title">{{translate('Courses Table')}}</h5>
                             <h5 class="card-header-title text-primary mx-1">({{ $courses->total() }})</h5>
                         </div>
                         <div>
@@ -56,19 +56,20 @@
                             <thead class="thead-light">
                             <tr>
                                 <th>{{translate('ID')}}</th>
-                                <th>{{translate('Name')}}</th>
+                                <th>{{translate('Author')}}</th>
                                 <th>{{translate('category name')}}</th>
-                                <th style="width: 25%">{{translate('image')}}</th>
-                                <th>{{translate('action')}}</th>
+                                <th>{{translate('Image')}}</th>
+                                <th>{{translate('Status')}}</th>
+                                <th>{{translate('Action')}}</th>
                             </tr>
                             </thead>
 
                             <tbody id="set-rows">
-                            @foreach($courses as $key=>$course)
+                            @foreach($courses as $key => $course)
                                 <tr>
                                     <td> {{$course['id']}}</td>
                                     <td> {{$course['author']}}</td>
-                                    <td>{{$course->categories->name}}</td>
+                                    <td>{{optional($course->categories)->name}}</td>
                                     <td>
                                         <div style="height: 60px; width: 60px; overflow-x: hidden;overflow-y: hidden">
                                             <img width="60" 
@@ -77,16 +78,16 @@
                                         </div>
                                     </td>
                                     <td>
-                                            @if($course['status'] == 0)
-                                                <div style="margin-top:12px;">
-                                                    <p class="text text-primary">{{translate('Deactive')}}</p>
-                                                </div>
-                                            @elseif($course['status'] == 1)
-                                                <div style="margin-top:12px;">
-                                                    <p class="text text-success">{{translate('Active')}}</p>
-                                                </div>
-                                            @endif
-                                        </td>
+                                        @if($course['status'] == 0)
+                                            <div style="margin-top:12px;">
+                                                <p class="text text-primary">{{translate('Deactive')}}</p>
+                                            </div>
+                                        @elseif($course['status'] == 1)
+                                            <div style="margin-top:12px;">
+                                                <p class="text text-success">{{translate('Active')}}</p>
+                                            </div>
+                                        @endif
+                                    </td>
                                     <td>
                                         <!-- Dropdown -->
                                         <div class="dropdown">
@@ -97,11 +98,11 @@
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a class="dropdown-item"
-                                                   href="{{route('admin.course.edit',[$course['id']])}}"> <i class="tio-edit"></i>{{translate('edit')}}</a>
+                                                   href="{{route('admin.course.edit',[$course['id']])}}"> <i class="tio-edit"></i>{{translate('Edit')}}</a>
                                                 <a class="dropdown-item"
-                                                   href="{{route('admin.course.preview',[$course['id']])}}"> <i class="tio-file"></i>{{translate('view')}}</a>
+                                                   href="{{route('admin.course.preview',[$course['id']])}}"> <i class="tio-file"></i>{{translate('View')}}</a>
                                                 <a class="dropdown-item" href="javascript:"
-                                                   onclick="form_alert('course-{{$course['id']}}','{{translate('Want to remove this information ?')}}')"><i class="tio-remove-from-trash"></i>{{translate('delete')}}</a>
+                                                   onclick="form_alert('course-{{$course['id']}}','{{translate('Want to remove this information ?')}}')"><i class="tio-remove-from-trash"></i>{{translate('Delete')}}</a>
                                                 <form action="{{route('admin.course.delete',[$course['id']])}}"
                                                       method="post" id="course-{{$course['id']}}">
                                                     @csrf @method('delete')
@@ -114,23 +115,20 @@
                             @endforeach
                             </tbody>
                         </table>
-                        <hr>
-                        <div class="page-area">
-                            <table>
-                                <tfoot>
-                                {!! $courses->links() !!}
-                                </tfoot>
-                            </table>
-                        </div>
-
                     </div>
                     <!-- End Table -->
                 </div>
                 <!-- End Card -->
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center">
+                    {{ $courses->links() }}
+                </div>
+            </div>
+        </div>
     </div>
-
 @endsection
 
 @push('script_2')
@@ -162,11 +160,9 @@
         });
     </script>
     <script>
-        $(document).on('ready', function () {
+        $(document).ready(function () {
             // INITIALIZATION OF DATATABLES
             // =======================================================
-            // var datatable = $.HSCore.components.HSDatatables.init($('#columnSearchDatatable'));
-
             var datatable = $('.table').DataTable({
                 "paging": false
             });
@@ -178,20 +174,17 @@
                     .draw();
             });
 
-            $('#date').on('change', function() {
+            $('#date').on('change', function () {
                 datatable
-                     .columns(5)
+                    .columns(5)
                     .search(this.value)
                     .draw();
             });
 
-       
-
-
             // INITIALIZATION OF SELECT2
             // =======================================================
             $('.js-select2-custom').each(function () {
-                var select2 = $.HSCore.components.HSSelect2.init($(this));
+                var select2 = $(this).select2();
             });
         });
     </script>

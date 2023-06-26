@@ -42,12 +42,10 @@ class CourseController extends Controller
         } else {
             $course = Course::query();
         }
-
         $courses = $course->with('categories')->latest()->paginate(Helpers::getPagination())->appends($query_param);
-        $totalCourses = $courses->total();
-
         return view('admin-views.course.list', compact('courses', 'search'));
     }
+        
 
     public function preview($id)
     {

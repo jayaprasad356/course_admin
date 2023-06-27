@@ -13,7 +13,6 @@ use App\Model\OrderDetail;
 use App\Model\Product;
 use App\Model\Review;
 use App\Model\User;
-use App\Model\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +41,6 @@ class DashboardController extends Controller
         $data = self::order_stats_data();
 
         $data['user'] = User::count();
-        $data['courses'] = course::count();
         $data['orders'] = Order::count();
         $data['completed_orders'] = Order::where('status','=',3)->count();
         $data['earnings'] = Order::where('status','=',3)->sum('price');

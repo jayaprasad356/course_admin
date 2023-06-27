@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
 use App\Model\Session;
-use App\Model\course;
+use App\Model\Course;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -41,7 +41,7 @@ class sessionController extends Controller
             });
             $query_param = ['search' => $request['search']];
         }else{
-            $session = new session();
+            $session = new Session();
         }
 
         $sessions = $session->with('course')->latest()->paginate(Helpers::getPagination())->appends($query_param);
@@ -68,7 +68,7 @@ class sessionController extends Controller
 
     public function preview($id)
     {
-        $session = session::where(['id' => $id])->first();
+        $session = Session::where(['id' => $id])->first();
         return view('admin-views.session.view', compact('session'));
     }
 
@@ -76,7 +76,7 @@ class sessionController extends Controller
     {
         
 
-        $session = new session();
+        $session = new Session();
         $session->title = $request->title;
         $session->course_id = $request->course_id;
         $session->video_link = $request->video_link;
@@ -89,7 +89,7 @@ class sessionController extends Controller
 
     public function edit($id)
     {
-        $session = session::find($id);
+        $session = Session::find($id);
         $courses = course::pluck('author', 'id'); // Fetch all courses as options for the dropdown
         return view('admin-views.session.edit', compact('session', 'courses'));
     }
@@ -98,7 +98,7 @@ class sessionController extends Controller
     {
        
 
-        $session = session::find($id);
+        $session = Session::find($id);
         $session->title = $request->title;
         $session->course_id = $request->course_id;
         $session->video_link = $request->video_link;
@@ -111,7 +111,7 @@ class sessionController extends Controller
 
     public function delete(Request $request)
     {
-        $session = session::find($request->id);
+        $session = Session::find($request->id);
         if (Storage::disk('public')->exists('session/' . $session['image'])) {
             Storage::disk('public')->delete('session/' . $session['image']);
         }

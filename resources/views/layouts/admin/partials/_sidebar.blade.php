@@ -61,7 +61,7 @@
                           <li class="navbar-vertical-aside-has-menu {{Request::is('admin/course/list')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                 href="{{route('admin.course.list')}}" title="{{translate('course')}}">
-                                    <i class="tio-user nav-icon"></i>
+                                    <i class="tio-book nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                             {{translate('courses')}}
                                         </span>
@@ -75,7 +75,7 @@
                           <li class="navbar-vertical-aside-has-menu {{Request::is('admin/categories/list')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                 href="{{route('admin.categories.list')}}" title="{{translate('categories')}}">
-                                    <i class="tio-user nav-icon"></i>
+                                    <i class="tio-book nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                             {{translate('categories')}}
                                         </span>
@@ -89,7 +89,7 @@
                           <li class="navbar-vertical-aside-has-menu {{Request::is('admin/session/list')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                 href="{{route('admin.session.list')}}" title="{{translate('session')}}">
-                                    <i class="tio-user nav-icon"></i>
+                                    <i class="tio-time nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                             {{translate('session')}}
                                         </span>

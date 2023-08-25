@@ -34,8 +34,8 @@
                     <div class="row">
                         <div class="col-md-8 col-12">
                             <div class="form-group">
-                                <label class="input-label" for="exampleFormControlInput1">{{translate('title')}}<i class="text-danger asterik">*</i></label>
-                                <input type="text" name="title" class="form-control" placeholder="{{translate('session title')}}"
+                                <label class="input-label" for="exampleFormControlInput1">{{translate('tittle')}}<i class="text-danger asterik">*</i></label>
+                                <input type="text" name="tittle" class="form-control" placeholder="{{translate('session tittle')}}"
                                        required>
                             </div>
                             <div class="form-group">
@@ -43,7 +43,7 @@
                                 <select name="course_id" class="form-control" required>
     <option value="">{{ translate('Select a course') }}</option>
     @foreach($courses as $course)
-        <option value="{{ $course->id }}">{{ $course->author }}</option>
+        <option value="{{ $course->id }}">{{ $course->course_tittle }}</option>
     @endforeach
 </select>
 
@@ -51,6 +51,11 @@
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('video_link')}}<i class="text-danger asterik">*</i></label>
                                 <input type="text" name="video_link" class="form-control" placeholder="{{translate('session video_link')}}"
+                                       required>
+                            </div>
+                               <div class="form-group">
+                                <label class="input-label" for="exampleFormControlInput1">{{translate('video_duration')}}<i class="text-danger asterik">*</i></label>
+                                <input type="time" name="video_duration" class="form-control" placeholder="{{translate('session video_duration')}}"
                                        required>
                             </div>
                             <div class="form-group">

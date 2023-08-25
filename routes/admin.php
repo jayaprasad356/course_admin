@@ -214,15 +214,9 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('search', 'sessionController@search')->name('search');
     });
 
-    Route::group(['prefix' => 'course', 'as' => 'course.', 'middleware' => ['module:course_management']], function () {
-        Route::get('add', 'CourseController@index')->name('add');
-        Route::post('store', 'CourseController@store')->name('store');
-        Route::get('list', 'CourseController@list')->name('list');
-        Route::get('preview/{id}', 'CourseController@preview')->name('preview');
-        Route::get('edit/{id}', 'CourseController@edit')->name('edit');
-        Route::post('update/{id}', 'CourseController@update')->name('update');
-        Route::delete('delete/{id}', 'CourseController@delete')->name('delete');
-        Route::post('search', 'CourseController@search')->name('search');
+    Route::group(['prefix' => 'withdrawal', 'as' => 'withdrawal.', 'middleware' => ['module:withdrawal_management']], function () {
+        Route::get('list', 'withdrawalController@list')->name('list');
+        Route::post('search', 'withdrawalController@search')->name('search');
     });
 
     Route::group(['prefix' => 'categories', 'as' => 'categories.', 'middleware' => ['module:categories_management']], function () {

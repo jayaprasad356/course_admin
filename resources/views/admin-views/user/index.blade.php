@@ -44,18 +44,13 @@
                                        required>
                             </div>
                             <div class="form-group">
-                                <label class="input-label" for="exampleFormControlInput1">{{translate('email')}}<i class="text-danger asterik">*</i></label>
-                                <input type="text" name="email" class="form-control" placeholder="{{translate('user email')}}"
+                                <label class="input-label" for="exampleFormControlInput1">{{translate('balance')}}<i class="text-danger asterik">*</i></label>
+                                <input type="text" name="balance" class="form-control" placeholder="{{translate('user balance')}}"
                                        required>
                             </div>
                             <div class="form-group">
-                                <label class="input-label" for="exampleFormControlInput1">{{translate('password')}}<i class="text-danger asterik">*</i></label>
-                                <input type="text" name="password" class="form-control" placeholder="{{translate('user password')}}"
-                                       required>
-                            </div>
-                            <div class="form-group">
-                                <label class="input-label" for="exampleFormControlInput1">{{translate('joined_date')}}<i class="text-danger asterik">*</i></label>
-                                <input type="date" name="joined_date" class="form-control" placeholder="{{translate('user joined_date')}}"
+                                <label class="input-label" for="exampleFormControlInput1">{{translate('referred_by')}}<i class="text-danger asterik">*</i></label>
+                                <input type="text" name="referred_by" class="form-control" placeholder="{{translate('user referred_by')}}"
                                        required>
                             </div>
                         </div>

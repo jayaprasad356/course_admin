@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+/*namespace App\Http\Controllers\Admin;
 
 use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
-use App\Model\session;
-use App\Model\course;
+use App\Model\Session;
+use App\Model\Course;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -77,9 +77,10 @@ class sessionController extends Controller
         
 
         $session = new session();
-        $session->title = $request->title;
+        $session->tittle = $request->tittle;
         $session->course_id = $request->course_id;
         $session->video_link = $request->video_link;
+         $session->video_duration = $request->video_duration;
         $session->description = $request->description;
         $session->save();
 
@@ -90,7 +91,7 @@ class sessionController extends Controller
     public function edit($id)
     {
         $session = session::find($id);
-        $courses = course::pluck('author', 'id'); // Fetch all courses as options for the dropdown
+        $courses = course::pluck('course_tittle', 'id'); // Fetch all courses as options for the dropdown
         return view('admin-views.session.edit', compact('session', 'courses'));
     }
 
@@ -99,9 +100,10 @@ class sessionController extends Controller
        
 
         $session = session::find($id);
-        $session->title = $request->title;
+        $session->tittle = $request->tittle;
         $session->course_id = $request->course_id;
         $session->video_link = $request->video_link;
+        $session->video_duration = $request->video_duration;
         $session->description = $request->description;
         $session->save();
 

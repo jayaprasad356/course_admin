@@ -35,8 +35,8 @@
                     <div class="row">
                         <div class="col-md-8 col-12">
                             <div class="form-group">
-                                <label class="input-label" for="exampleFormControlInput1">{{translate('title')}}</label>
-                                <input type="text" value="{{$session['title']}}" name="title"
+                                <label class="input-label" for="exampleFormControlInput1">{{translate('tittle')}}</label>
+                                <input type="text" value="{{$session['tittle']}}" name="tittle"
                                        class="form-control" required>
                             </div>
                             <div class="form-group">
@@ -50,6 +50,11 @@
                             <div class="form-group">
                                 <label class="input-label" for="exampleFormControlInput1">{{translate('video_link')}}</label>
                                 <input type="text" value="{{$session['video_link']}}" name="video_link"
+                                       class="form-control" required>
+                            </div>
+                             <div class="form-group">
+                                <label class="input-label" for="exampleFormControlInput1">{{translate('video_duration')}}</label>
+                                <input type="time" value="{{$session['video_duration']}}" name="video_duration"
                                        class="form-control" required>
                             </div>
                             <div class="form-group">

@@ -44,19 +44,17 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required',
             'mobile' => 'required',
-            'password' => 'required',
-            'joined_date' => 'required',
+            'balance' => 'required',
+            'referred_by' => 'required',
+           
         ]);
 
         $user = new User();
         $user->name = $request->name;
-        $user->email = $request->email;
+        $user->balance = $request->balance;
         $user->mobile = $request->mobile;
-        $user->password = $request->password;
-        $user->joined_date = $request->joined_date;
-        $user->status = $request->status;
+        $user->referred_by = $request->referred_by;
         $user->save();
 
         Toastr::success(translate('User added successfully!'));
@@ -71,21 +69,32 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'mobile' => 'required',
-            'password' => 'required',
-            'joined_date' => 'required',
-        ]);
+      
 
         $user = User::findOrFail($id);
-        $user->name = $request->name;
-        $user->email = $request->email;
         $user->mobile = $request->mobile;
-        $user->password = $request->password;
         $user->joined_date = $request->joined_date;
+        $user->earn = $request->earn;
+        $user->balance = $request->balance;
+        $user->device_id = $request->device_id;
+        $user->referred_by = $request->referred_by;
+        $user->refer_code = $request->refer_code;
+        $user->withdrawal_status = $request->withdrawal_status;
         $user->status = $request->status;
+        $user->min_withdrawal = $request->min_withdrawal;
+        $user->account_num = $request->account_num;
+        $user->holder_name = $request->holder_name;
+        $user->bank = $request->bank;
+        $user->branch = $request->branch;
+        $user->ifsc = $request->ifsc;
+        $user->basic_wallet = $request->basic_wallet;
+        $user->premium_wallet = $request->premium_wallet;
+        $user->total_ads = $request->total_ads;
+        $user->today_ads = $request->today_ads;
+        $user->target_refers = $request->target_refers;
+        $user->current_refers = $request->current_refers;
+        $user->gender = $request->gender;
+        $user->support_lan = $request->support_lan;
         $user->save();
 
         Toastr::success(translate('User details updated successfully!'));

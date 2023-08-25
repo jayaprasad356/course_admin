@@ -9,11 +9,11 @@
                     @php($restaurant_logo=\App\Model\BusinessSetting::where(['key'=>'logo'])->first()->value)
                     <a class="navbar-brand" href="{{route('admin.dashboard')}}" aria-label="Front">
                         <img class="navbar-brand-logo"
-                             onerror="this.src='{{asset('public/assets/admin/img/160x160/img1.jpg')}}'"
+                             onerror="this.src='{{asset('public/assets/admin/img/160x160/logo.jpeg')}}'"
                              src="{{asset('storage/app/public/restaurant/'.$restaurant_logo)}}"
                              alt="Logo">
                         <img class="navbar-brand-logo-mini"
-                             onerror="this.src='{{asset('public/assets/admin/img/160x160/img1.jpg')}}'"
+                             onerror="this.src='{{asset('public/assets/admin/img/160x160/logo.jpeg')}}'"
                              src="{{asset('storage/app/public/restaurant/'.$restaurant_logo)}}" alt="Logo">
                     </a>
 
@@ -58,12 +58,12 @@
                         @if(Helpers::module_permission_check(MANAGEMENT_SECTION['user_management']))
                           <!-- Pages -->
                           
-                          <li class="navbar-vertical-aside-has-menu {{Request::is('admin/course/list')?'active':''}}">
+                          <li class="navbar-vertical-aside-has-menu {{Request::is('admin/withdrawal/list')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                href="{{route('admin.course.list')}}" title="{{translate('course')}}">
+                                href="{{route('admin.withdrawal.list')}}" title="{{translate('withdrawal')}}">
                                     <i class="tio-user nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                            {{translate('courses')}}
+                                            {{translate('withdrawal')}}
                                         </span>
                                 </a>
                             </li>

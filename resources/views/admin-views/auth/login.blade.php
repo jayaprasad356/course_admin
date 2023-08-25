@@ -56,7 +56,7 @@
         <label class="badge badge-soft-success float-right" style="z-index: 9;position: absolute;right: 0.5rem;top: 0.5rem;">{{translate('Software version')}} : {{ env('SOFTWARE_VERSION') }}</label>
         <a class="d-flex justify-content-center mb-5" href="javascript:">
             <img class="z-index-2"
-                 onerror="this.src='{{asset('public/assets/admin/img/160x160/img.png')}}'"
+                 onerror="this.src='{{asset('public/assets/admin/img/160x160/logo.jpeg')}}'"
                  src="{{asset('storage/app/public/restaurant')}}/{{\App\Model\BusinessSetting::where(['key'=>'logo'])->first()->value??''}}" alt="Image Description" style="height: 100px;">
         </a>
 
@@ -71,7 +71,7 @@
 
                             <div class="text-center">
                                 <div class="mb-5">
-                                    <h1 class="display-4"> {{translate('course app')}}</h1>
+                                    <h1 class="display-4"> {{translate('A1 Ads')}}</h1>
                                     <!-- <p>{{translate('want to login your branches?')}}
                                         <a href="{{route('branch.auth.login')}}">
                                             {{translate('branch')}} {{translate('login')}}

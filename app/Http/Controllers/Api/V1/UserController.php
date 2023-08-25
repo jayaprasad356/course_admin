@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\DB;
 use App\Model\User;
 use App\Model\Book;
 use App\Model\Cart;
-use App\Model\course;
-use App\Model\categories;
-use App\Model\session;
+use App\Model\Course;
+use App\Model\Categories;
+use App\Model\Session;
 use App\Model\app_update;
 use App\Model\enrolled_course;
 use App\Model\Order;
@@ -62,8 +62,6 @@ class UserController extends Controller
 }
 
 //signin
-
-
 public function Register(Request $request)
 {
     $validator = Validator::make($request->all(), [
@@ -80,6 +78,7 @@ public function Register(Request $request)
             'message' => $validator->errors()->first(),
         ], 200);
     }
+
 
     $email = $request->input('email');
     $name = $request->input('name');
@@ -103,7 +102,7 @@ public function Register(Request $request)
     $user->password = Hash::make($password);
     $user->refer_code = $referCode;
     $user->save();
-
+    
     return response()->json([
         'success' => true,
         'message' => 'Registered successfully.',
@@ -148,35 +147,99 @@ public function update_profile(Request $request)
     ], 200);
 }
 
+//upload image
+public function upload_image(Request $request)
+{
+    $user_id = $request->input('user_id');
 
-  
+    if (empty($user_id)) {
+        return response()->json([
+            'success' => false,
+            'message' => 'User ID is empty',
+        ], 400);
+    }
+
+    $user = User::find($user_id);
+
+    if (!$user) {
+        return response()->json([
+            'success' => false,
+            'message' => 'User not found',
+        ], 404);
+    }
+
+    $validator = Validator::make($request->all(), [
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'success' => false,
+            'message' => $validator->errors()->first(),
+        ], 400);
+    }
+
+    $image = $request->file('image');
+    if (!empty($image)) {
+        // Assuming you have a valid image upload logic
+        $imagePath = Helpers::upload('user/', 'png', $image);
+        $user->image = $imagePath;
+    }
+
+    $user->save();
+
+    $userDetails = [
+        'image' =>  $user->image,
+    ];
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Image upload successful',
+        'data' => [$userDetails],
+    ], 200);
+}
+
   
     
   //userdetails
-    public function user_details(Request $request)
-    {    
-        $user_id = $request->input('user_id');
-        if(empty($user_id)){
-            return response()->json([
-                'success'=>false,
-                'message' => 'User Id is Empty',
-            ], 200);
-        }
-        $user = User::where('id', $request->input('user_id'))->get();
-        if (count($user)>=1) {
-            return response()->json([
-               "success" => true ,
-                'message' => 'Details Retrieved Successfully',
-                'data' =>$user,
-            ], 201);
-        }
-        else{
-            return response()->json([
-                    "success" => false ,
-                    'message'=> "User Not Found",
-                  ], 400);
-        }
+public function user_details(Request $request)
+{    
+    $user_id = $request->input('user_id');
+    if(empty($user_id)){
+        return response()->json([
+            'success'=>false,
+            'message' => 'User ID is empty',
+        ], 200);
     }
+
+    $user = User::where('id', $user_id)->first();
+
+    if (!$user) {
+        return response()->json([
+            'success' => false,
+            'message' => 'User not found',
+        ], 404);
+    }
+
+    $userData = [
+        'id' => $user->id,
+        'name' => $user->name,
+        'email' => $user->email,
+        'mobile' => $user->mobile,
+        'password' => $user->password,
+        'refer_code' => $user->refer_code,
+        'status' => $user->status,
+        'joined_date' => $user->joined_date,
+        'image' => $user->image,
+    ];
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Details retrieved successfully',
+        'data' => [$userData],
+    ], 201);
+}
+
 
 // course update details
 public function update_course(Request $request)
@@ -270,7 +333,7 @@ public function course_list(Request $request)
         $responseData[] = [
             'id' => $courseDetails['id'],
             'author' => $courseDetails['author'],
-            'course_title' => $courseDetails['course_title'],
+            'course_tittle' => $courseDetails['course_tittle'],
             'image' => asset('storage/app/public/course/' . $courseDetails['image']),
         ];
     }
@@ -310,7 +373,7 @@ public function session_list(Request $request)
 
         $responseData[] = [
             'id' => $sessionDetails['id'],
-            'title' => $sessionDetails['title'],
+            'tittle' => $sessionDetails['tittle'],
             'video_link' => $sessionDetails['video_link'],
             'video_duration' => $sessionDetails['video_duration'],
         ];
@@ -324,24 +387,21 @@ public function session_list(Request $request)
 }
 
 //my course list
-//sessionlist
 public function my_course_list(Request $request)
 {
     $user_id = $request->input('user_id');
+    $courses = null;
 
     if (empty($user_id)) {
-        return response()->json([
-            'success' => false,
-            'message' => 'User ID is empty',
-        ], 400);
+        $courses = Course::all();
+    } else {
+        $courses = Course::where('user_id', $user_id)->get();
     }
-
-    $courses = Course::where('user_id', $user_id)->get();
 
     if ($courses->isEmpty()) {
         return response()->json([
             'success' => false,
-            'message' => 'No courses found for the given user ID',
+            'message' => 'No courses found',
         ], 404);
     }
 
@@ -353,7 +413,7 @@ public function my_course_list(Request $request)
         $responseData[] = [
             'id' => $courseDetails['id'],
             'author' => $courseDetails['author'],
-            'course_title' => $courseDetails['course_title'],
+            'course_tittle' => $courseDetails['course_tittle'],
             'image' => asset('storage/app/public/course/' . $courseDetails['image']),
         ];
     }
@@ -364,6 +424,8 @@ public function my_course_list(Request $request)
         'data' => $responseData,
     ], 200);
 }
+
+
 //add categories
 public function add_categories(Request $request)
 {

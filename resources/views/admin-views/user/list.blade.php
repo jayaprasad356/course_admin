@@ -30,24 +30,13 @@
                     <!-- Header -->
                     <div class="card-header flex-between">
                         <div class="flex-start">
-                            <h5 class="card-header-title">{{translate('users Table')}}</h5>
-                            <h5 class="card-header-title text-primary mx-1">({{ $users->total() }})</h5>
-                        </div>
-                        <div class="flex-start col-md-3">
-                        <select id="status" name="status" class="js-select2-custom"
-                                        data-hs-select2-options='{
-                                            "minimumResultsForSearch": "Infinity",
-                                            "customClass": "custom-select custom-select-sm text-capitalize"
-                                        }'>
-                                    <option value="">{{translate('any')}}</option>
-                                    <option value="0">{{translate('Not-Verified')}}</option>
-                                    <option value="1">{{translate('verified')}}</option>
-                                    <option value="2">{{translate('Blocked')}}</option>
-                                </select>
-                        </div>
-                        <div class="flex-start col-md-3">
-    <input type="date" id="date" name="date" class="form-control">
-</div>
+                        <form action="export-verified-user.php">
+                            <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export Verified Users</button>
+                        </form>
+                        <form action="export-unverified-user.php">
+                            <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export Unverified Users</button>
+                        </form>
+                     </div>
                         <form action="{{url()->current()}}" method="GET">
                             <div class="input-group">
                                 <input id="datatableSearch_" type="search" name="search"
@@ -61,6 +50,34 @@
                             </div>
                         </form>
                     </div>
+                    <div class="row">
+                    <div class="col-md-3">
+                        <select id="status" name="status" class="js-select2-custom"
+                                        data-hs-select2-options='{
+                                            "minimumResultsForSearch": "Infinity",
+                                            "customClass": "custom-select custom-select-sm text-capitalize"
+                                        }'>
+                                    <option value="">{{translate('any')}}</option>
+                                    <option value="0">{{translate('Not-Verified')}}</option>
+                                    <option value="1">{{translate('Verified')}}</option>
+                                    <option value="2">{{translate('Blocked')}}</option>
+                                </select>
+                        </div>
+                        <div class="col-md-2">
+                        <input type="date" id="date" name="date" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                        <select id="trial_completed" name="trial_completed" class="js-select2-custom"
+                                        data-hs-select2-options='{
+                                            "minimumResultsForSearch": "Infinity",
+                                            "customClass": "custom-select custom-select-sm text-capitalize"
+                                        }'>
+                                    <option value="">{{translate('any')}}</option>
+                                    <option value="0">{{translate('Yes')}}</option>
+                                    <option value="1">{{translate('no')}}</option>
+                                </select>
+                        </div>
+                        </div>
                     <!-- End Header -->
 
                     <!-- Table -->
@@ -69,12 +86,17 @@
                             <thead class="thead-light">
                             <tr>
                                 <th>{{translate('id')}}</th>
-                                <th style="width: 30%">{{translate('name')}}</th>
-                                <th>{{translate('email')}}</th>
-                                <th>{{translate('mobile')}}</th>
-                                <th>{{translate('password')}}</th>
-                                <th>{{translate('joined_date')}}</th>
+                                <th >{{translate('name')}}</th>
+                                <th >{{translate('mobile')}}</th>
+                                <th>{{translate('refer_code')}}</th>
+                                <th>{{translate('referred_by')}}</th>
+                                <th >{{translate('total_referals')}}</th>
+                                <th >{{translate('today_ads')}}</th>
+                                <th >{{translate('earn')}}</th>
+                                <th >{{translate('balance')}}</th>
+                                <th >{{translate('current_refers')}}</th>
                                 <th>{{translate('status')}}</th>
+                                <th>{{translate('joined_date')}}</th>
                                 <th>{{translate('action')}}</th>
                             </tr>
                             </thead>
@@ -83,15 +105,15 @@
                                 @foreach($users as $key=>$user)
                                     <tr>
                                         <td>{{$user['id']}}</td>
-                                        <td>
-                                            <span class="d-block font-size-sm text-body">
-                                                {{$user['name']}}
-                                            </span>
-                                        </td>
-                                        <td>{{$user['email']}}</td>
+                                        <td>{{$user['name']}}</td>
                                         <td>{{$user['mobile']}}</td>
-                                        <td>{{$user['password']}}</td>
-                                        <td>{{$user['joined_date']}}</td>
+                                        <td>{{$user['refer_code']}}</td>
+                                        <td>{{$user['referred_by']}}</td>
+                                        <td>{{$user['total_referals']}}</td>
+                                        <td>{{$user['today_ads']}}</td>
+                                        <td>{{$user['earn']}}</td>
+                                        <td>{{$user['balance']}}</td>
+                                        <td>{{$user['current_refers']}}</td>
                                         <td>
                                             @if($user['status'] == 0)
                                                 <div style="margin-top:12px;">
@@ -107,6 +129,7 @@
                                                 </div>
                                             @endif
                                         </td>
+                                        <td>{{$user['joined_date']}}</td>
                                         <td>
                                             <!-- Dropdown -->
                                             <div class="dropdown">
@@ -203,7 +226,12 @@
                     .search(this.value)
                     .draw();
             });
-
+            $('#trail_completed').on('change', function () {
+                datatable
+                    .columns(0)
+                    .search(this.value)
+                    .draw();
+            });
             $('#date').on('change', function() {
                 datatable
                      .columns(5)

@@ -30,8 +30,8 @@
                                 <td>{{$session['id']}}</td>
                             </tr>
                             <tr>
-                                <th style="width: 200px">Name</th>
-                                <td>{{$session['name']}}</td>
+                                <th style="width: 200px">tittle</th>
+                                <td>{{$session['tittle']}}</td>
                             </tr>
                             <tr>
                                 <th style="width: 200px">course</th>

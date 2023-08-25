@@ -26,6 +26,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware' => 'localization'], function
     Route::post('/my_course_list','UserController@my_course_list');
     Route::post('/session_list','UserController@session_list');
     Route::post('/add_categories','UserController@add_categories');
+     Route::post('/upload_image','UserController@upload_image');
 
 
     Route::group(['prefix' => 'booklist'], function () {

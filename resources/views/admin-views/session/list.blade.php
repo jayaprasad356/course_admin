@@ -54,9 +54,10 @@
                             <thead class="thead-light">
                             <tr>
                                 <th>{{translate('id')}}</th>
-                                <th>{{translate('title')}}</th>
+                                <th>{{translate('tittle')}}</th>
                                 <th>{{translate('course name')}}</th>
                                 <th>{{translate('video_link')}}</th>
+                                <th>{{translate('video_duration')}}</th>
                                 <th>{{translate('description')}}</th>
                                 <th>{{translate('action')}}</th>
                             </tr>
@@ -68,11 +69,12 @@
                                         <td>{{$session['id']}}</td>
                                         <td>
                                             <span class="d-block font-size-sm text-body">
-                                                {{$session['title']}}
+                                                {{$session['tittle']}}
                                             </span>
                                         </td>
-                                        <td>{{$session->course->author}}</td>
+                                        <td>{{$session->course->course_tittle}}</td>
                                         <td>{{$session['video_link']}}</td>
+                                        <td>{{$session['video_duration']}}</td>
                                         <td>{{$session['description']}}</td>
                                         <td>
                                             <!-- Dropdown -->

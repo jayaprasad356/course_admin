@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-
+use App\Exports\VerifiedUsersExport;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,6 +21,17 @@ return view('welcome');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');*/
+
+// routes/web.php
+// routes/web.php
+
+Route::get('admin/user/export-verified', 'Admin\UserController@exportVerified')->name('admin.user.export-verified');
+Route::get('admin/user/export-unverified', 'Admin\UserController@exportUnverified')->name('admin.user.export-unverified');
+Route::get('admin/user/export-all', 'Admin\UserController@exportAllUsers')->name('admin.user.export-all');
+Route::post('/update-withdrawal-status', 'Admin\WithdrawalController@updateStatus')->name('admin.update.withdrawal.status');
+
+
+
 
 Route::get('/', function () {
     return redirect(\route('admin.dashboard'));

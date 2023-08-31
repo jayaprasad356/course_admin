@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 
-@section('title', translate('Add new session'))
+@section('title', translate('Add new branches'))
 <style>
     .password-container{
         position: relative;
@@ -22,47 +22,46 @@
         <div class="pb-3">
             <div class="row align-items-center">
                 <div class="col-sm mb-2 mb-sm-0">
-                    <h1 class=""><i class="tio-add-circle-outlined"></i> {{translate('add')}} {{translate('new')}} {{translate('session')}}</h1>
+                    <h1 class=""><i class="tio-add-circle-outlined"></i> {{translate('add')}} {{translate('new')}} {{translate('branches')}}</h1>
                 </div>
             </div>
         </div>
         <!-- End Page Header -->
         <div class="row gx-2 gx-lg-3">
             <div class="col-sm-12 col-lg-12 mb-3 mb-lg-2">
-                <form action="{{route('admin.session.store')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('admin.branches.store')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-8 col-12">
                             <div class="form-group">
-                                <label class="input-label" for="exampleFormControlInput1">{{translate('tittle')}}<i class="text-danger asterik">*</i></label>
-                                <input type="text" name="tittle" class="form-control" placeholder="{{translate('session tittle')}}"
+                                <label class="input-label" for="exampleFormControlInput1">{{translate('name')}}<i class="text-danger asterik">*</i></label>
+                                <input type="text" name="name" class="form-control" placeholder="{{translate(' Name')}}"
                                        required>
                             </div>
                             <div class="form-group">
-                                <label class="input-label" for="exampleFormControlInput1">{{ translate('course') }}<i class="text-danger asterik">*</i></label>
-                                <select name="course_id" class="form-control" required>
-    <option value="">{{ translate('Select a course') }}</option>
-    @foreach($courses as $course)
-        <option value="{{ $course->id }}">{{ $course->course_tittle }}</option>
-    @endforeach
-</select>
+                                <label class="input-label" for="exampleFormControlInput1">{{translate('mobile')}}<i class="text-danger asterik">*</i></label>
+                                <input type="text" name="mobile" class="form-control" placeholder="{{translate('mobile')}}"
+                                       required>
+                            </div>
+                            <div class="form-group">
+                                <label class="input-label" for="exampleFormControlInput1">{{translate('short_code')}}<i class="text-danger asterik">*</i></label>
+                                <input type="text" name="short_code" class="form-control" placeholder="{{translate('short_code')}}"
+                                       required>
+                            </div>
+                            <div class="form-group">
+                                 <label class="input-label" for="exampleFormControlInput1">{{translate('support_lan')}}<i class="text-danger asterik">*</i></label>
+                                   <select name="support_lan" class="form-control">
+                                    <option value=''>--select--</option>
+                                    <option value='tamil'>Tamil</option>
+                                    <option value='kannada'>Kannada</option>
+                                    <option value='telugu'>Telugu</option>
+                                    <option value='hindi'>Hindi</option>
+                                     <option value='english'>English</option>
+                              </select>
+                          </div>
 
-                            </div>
-                            <div class="form-group">
-                                <label class="input-label" for="exampleFormControlInput1">{{translate('video_link')}}<i class="text-danger asterik">*</i></label>
-                                <input type="text" name="video_link" class="form-control" placeholder="{{translate('session video_link')}}"
-                                       required>
-                            </div>
-                               <div class="form-group">
-                                <label class="input-label" for="exampleFormControlInput1">{{translate('video_duration')}}<i class="text-danger asterik">*</i></label>
-                                <input type="time" name="video_duration" class="form-control" placeholder="{{translate('session video_duration')}}"
-                                       required>
-                            </div>
-                            <div class="form-group">
-                                <label class="input-label" for="exampleFormControlInput1">{{translate('description')}}<i class="text-danger asterik">*</i></label>
-                                <input type="text" name="description" class="form-control" placeholder="{{translate('session description')}}"
-                                       required>
-                            </div>
+                        </div>
+                        </div>
                     <button type="submit" class="btn btn-primary">{{translate('submit')}}</button>
                     <input type="reset" onClick="refreshPage()" class="btn-warning btn" value="Clear" />
                 </form>

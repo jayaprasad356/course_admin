@@ -14,10 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class app_updateController extends Controller
 {
-    public function index()
-    {
-        return view('admin-views.app_update.index');
-    }
+    
 
     public function list(Request $request)
     {
@@ -99,15 +96,7 @@ class app_updateController extends Controller
         $app_update->description = $request->description;
         $app_update->save();
 
-        Toastr::success(translate('app_update Details app_updated successfully!'));
+        Toastr::success(translate('app_update Details updated successfully!'));
         return redirect('admin/app_update/list');
-    }
-
-    public function delete(Request $request)
-    {
-        $app_update = app_update::find($request->id);
-        $app_update->delete();
-        Toastr::success(translate('app_update Deleted Successfully!'));
-        return back();
     }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 
-@section('title', translate('categoriess List'))
+@section('title', translate('transaction List'))
 
 @push('css_or_js')
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -13,11 +13,7 @@
             <div class="row align-items-center">
                 <div class="col-sm mb-2 mb-sm-0 row">
                     <div class="col-12 col-sm-6">
-                        <h1 class=""><i class="tio-filter-list"></i> {{translate('categoriess')}} {{translate('list')}}</h1>
-                    </div>
-                    <div class="col-12 col-sm-6 text-sm-right text-left">
-                        <a href="{{route('admin.categories.add')}}" class="btn btn-primary pull-right"><i
-                                class="tio-add-circle"></i> {{translate('add categories')}}</a>
+                        <h1 class=""><i class="tio-filter-list"></i> {{translate('transaction')}} {{translate('List')}}</h1>
                     </div>
                 </div>
             </div>
@@ -30,8 +26,8 @@
                     <!-- Header -->
                     <div class="card-header flex-between">
                         <div class="flex-start">
-                            <h5 class="card-header-title">{{translate('categoriess Table')}}</h5>
-                            <h5 class="card-header-title text-primary mx-1">({{ $categoriess->total() }})</h5>
+                            <h5 class="card-header-title">{{translate('transaction Table')}}</h5>
+                            <h5 class="card-header-title text-primary mx-1">({{ $transactions->total() }})</h5>
                         </div>
                         <div>
                             <form action="{{url()->current()}}" method="GET">
@@ -56,64 +52,41 @@
                             <thead class="thead-light">
                             <tr>
                                 <th>{{translate('ID')}}</th>
-                                <th >{{translate('name')}}</th>
-                                <th>{{translate('action')}}</th>
+                                <th>{{translate('name')}}</th>
+                                <th>{{translate('mobile')}}</th>
+                                <th>{{translate('type')}}</th>
+                                <th>{{translate('datetime')}}</th>
                             </tr>
                             </thead>
 
                             <tbody id="set-rows">
-                            @foreach($categoriess as $key=>$categories)
+                            @foreach($transactions as $key => $transaction)
                                 <tr>
-                                    <td> {{$categories['id']}}</td>
-                                    <td>
-                                        <span class="d-block font-size-sm text-body">
-                                            {{$categories['name']}}
-                                        </span>
+                                <td>{{ $transaction->id }}</td>
+                                <td>{{ optional($transaction->user)->name }}</td>
+                                    <td>{{ optional($transaction->user)->mobile }}</td>
+                                    <td>{{ $transaction->type }}</td>
+                                    <td>{{ $transaction->datetime }}</td>
                                     </td>
-                                    <td>
-                                        <!-- Dropdown -->
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                <i class="tio-settings"></i>
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item"
-                                                   href="{{route('admin.categories.edit',[$categories['id']])}}"> <i class="tio-edit"></i>{{translate('edit')}}</a>
-                                                <a class="dropdown-item"
-                                                   href="{{route('admin.categories.preview',[$categories['id']])}}"> <i class="tio-file"></i>{{translate('view')}}</a>
-                                                <a class="dropdown-item" href="javascript:"
-                                                   onclick="form_alert('categories-{{$categories['id']}}','{{translate('Want to remove this information ?')}}')"><i class="tio-remove-from-trash"></i>{{translate('delete')}}</a>
-                                                <form action="{{route('admin.categories.delete',[$categories['id']])}}"
-                                                      method="post" id="categories-{{$categories['id']}}">
-                                                    @csrf @method('delete')
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <!-- End Dropdown -->
-                                    </td>
+                               
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
-                        <hr>
-                        <div class="page-area">
-                            <table>
-                                <tfoot>
-                                {!! $categoriess->links() !!}
-                                </tfoot>
-                            </table>
-                        </div>
-
                     </div>
                     <!-- End Table -->
                 </div>
                 <!-- End Card -->
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center">
+                    {{ $transactions->links() }}
+                </div>
+            </div>
+        </div>
     </div>
-
 @endsection
 
 @push('script_2')
@@ -126,7 +99,7 @@
                 }
             });
             $.post({
-                url: '{{route('admin.categories.search')}}',
+                url: '{{route('admin.transaction.search')}}',
                 data: formData,
                 cache: false,
                 contentType: false,
@@ -145,11 +118,9 @@
         });
     </script>
     <script>
-        $(document).on('ready', function () {
+        $(document).ready(function () {
             // INITIALIZATION OF DATATABLES
             // =======================================================
-            // var datatable = $.HSCore.components.HSDatatables.init($('#columnSearchDatatable'));
-
             var datatable = $('.table').DataTable({
                 "paging": false
             });
@@ -161,20 +132,17 @@
                     .draw();
             });
 
-            $('#date').on('change', function() {
+            $('#date').on('change', function () {
                 datatable
-                     .columns(5)
+                    .columns(5)
                     .search(this.value)
                     .draw();
             });
 
-       
-
-
             // INITIALIZATION OF SELECT2
             // =======================================================
             $('.js-select2-custom').each(function () {
-                var select2 = $.HSCore.components.HSSelect2.init($(this));
+                var select2 = $(this).select2();
             });
         });
     </script>

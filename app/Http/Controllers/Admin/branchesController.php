@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
-use App\Model\categories;
+use App\Model\branches;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\DB;
 
-class CategoriesController extends Controller
+class branchesController extends Controller
 {
     public function index()
     {
-        return view('admin-views.categories.index');
+        return view('admin-views.branches.index');
     }
 
     public function list(Request $request)
@@ -25,7 +25,7 @@ class CategoriesController extends Controller
         $search = $request['search'];
         if ($request->has('search')) {
             $key = explode(' ', $request['search']);
-            $categories = categories::where(function ($q) use ($key) {
+            $branches = branches::where(function ($q) use ($key) {
                 foreach ($key as $value) {
                     $q->orWhere('name', 'like', "%{$value}%")
                         ->orWhere('sub_name', 'like', "%{$value}%")
@@ -38,17 +38,17 @@ class CategoriesController extends Controller
             });
             $query_param = ['search' => $request['search']];
         }else{
-            $categories = new categories();
+            $branches = new branches();
         }
 
-        $categoriess = $categories->latest()->paginate(Helpers::getPagination())->appends($query_param);
-        return view('admin-views.categories.list', compact('categoriess', 'search'));
+        $branchess = $branches->latest()->paginate(Helpers::getPagination())->appends($query_param);
+        return view('admin-views.branches.list', compact('branchess', 'search'));
     }
 
     // public function search(Request $request)
     // {
     //     $key = explode(' ', $request['search']);
-    //     $categories = categories::where(function ($q) use ($key) {
+    //     $branches = branches::where(function ($q) use ($key) {
     //         foreach ($key as $value) {
     //             $q->orWhere('name', 'like', "%{$value}%")
     //                 ->orWhere('mobile', 'like', "%{$value}%")
@@ -58,15 +58,15 @@ class CategoriesController extends Controller
     //         }
     //     })->get();
     //     return response()->json([
-    //         'view' => view('admin-views.categories.partials._table', compact('categoriess'))->render()
+    //         'view' => view('admin-views.branches.partials._table', compact('branchess'))->render()
     //     ]);
     // }
 
 
     public function preview($id)
     {
-        $categories = categories::where(['id' => $id])->first();
-        return view('admin-views.categories.view', compact('categories'));
+        $branches = branches::where(['id' => $id])->first();
+        return view('admin-views.branches.view', compact('branches'));
     }
 
     public function store(Request $request)
@@ -75,18 +75,21 @@ class CategoriesController extends Controller
             'name' => 'required',
         ]);
 
-        $categories = new categories();
-        $categories->name = $request->name;
-        $categories->save();
+        $branches = new branches();
+        $branches->name = $request->name;
+        $branches->mobile = $request->mobile;
+        $branches->short_code = $request->short_code;
+        $branches->support_lan = $request->support_lan;
+        $branches->save();
 
-        Toastr::success(translate('categories added successfully!'));
-        return redirect('admin/categories/list');
+        Toastr::success(translate('branches added successfully!'));
+        return redirect('admin/branches/list');
     }
 
     public function edit($id)
 {
-    $categories = categories::find($id);
-    return view('admin-views.categories.edit', compact('categories'));
+    $branches = branches::find($id);
+    return view('admin-views.branches.edit', compact('branches'));
 }
 
 
@@ -94,22 +97,25 @@ class CategoriesController extends Controller
     {
        
 
-        $categories = categories::find($id);
-        $categories->name = $request->name;
-        $categories->save();
+        $branches = branches::find($id);
+        $branches->name = $request->name;
+        $branches->mobile = $request->mobile;
+        $branches->short_code = $request->short_code;
+        $branches->support_lan = $request->support_lan;
+        $branches->save();
 
-        Toastr::success(translate('categories Details updated successfully!'));
-        return redirect('admin/categories/list');
+        Toastr::success(translate('branches Details updated successfully!'));
+        return redirect('admin/branches/list');
     }
 
     public function delete(Request $request)
     {
-        $categories = categories::find($request->id);
-        if (Storage::disk('public')->exists('categories/' . $categories['image'])) {
-            Storage::disk('public')->delete('categories/' . $categories['image']);
+        $branches = branches::find($request->id);
+        if (Storage::disk('public')->exists('branches/' . $branches['image'])) {
+            Storage::disk('public')->delete('branches/' . $branches['image']);
         }
-        $categories->delete();
-        Toastr::success(translate('categories Removed Successfully!'));
+        $branches->delete();
+        Toastr::success(translate('branches Removed Successfully!'));
         return back();
     }
 }

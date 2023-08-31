@@ -11,6 +11,7 @@ use App\Model\Categories;
 use App\Model\Order;
 use App\Model\OrderDetail;
 use App\Model\Product;
+use App\Model\app_update;
 use App\Model\Review;
 use App\Model\User;
 use App\Model\withdrawal;
@@ -38,16 +39,22 @@ class DashboardController extends Controller
 
     public function dashboard()
     {
-       
-
+        $joineddateCount = User::whereDate('joined_date', Carbon::now())->count();
+        $registereddateCount = User::whereDate('registered_date', Carbon::now())->count();
+        $activeUserCount = User::where('status', 1)->count();
+        $tamilUserCount = User::where('support_lan', 'tamil')->count();
+        $kannadaUserCount = User::where('support_lan', 'kannada')->count();
+        $otherUserCount = User::whereNotIn('support_lan', ['tamil', 'kannada'])->count();
+        $totalUnpaidWithdrawals = Withdrawal::where('status', 0)->sum('amount');
         $data = self::order_stats_data();
-
+    
         $data['user'] = User::count();
         $data['withdrawal'] = User::count();
-
-
-        return view('admin-views.dashboard', compact('data'));
+        $data['app_update'] = User::count();
+    
+        return view('admin-views.dashboard', compact('data', 'registereddateCount', 'activeUserCount', 'joineddateCount', 'tamilUserCount', 'kannadaUserCount', 'otherUserCount', 'totalUnpaidWithdrawals'));
     }
+    
 
     public function order_stats(Request $request)
     {

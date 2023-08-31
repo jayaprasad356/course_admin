@@ -30,12 +30,24 @@
                     <!-- Header -->
                     <div class="card-header flex-between">
                         <div class="flex-start">
-                        <form action="export-verified-user.php">
-                            <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export Verified Users</button>
-                        </form>
-                        <form action="export-unverified-user.php">
-                            <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export Unverified Users</button>
-                        </form>
+                       <!-- Include necessary CSS and JS files -->
+                       <div class="row">
+    <div class="col-md-3">
+    <button id="exportUserButton" class="btn btn-primary mb-2">
+        <i class="fa fa-download"></i> Export All Users
+    </button>
+    </div>
+    <div class="col-md-4">
+    <button id="exportVerifiedButton" class="btn btn-primary mb-2">
+    <i class="fa fa-download"></i> Export Verified  Users
+</button>
+    </div>
+    <div class="col-md-4">
+    <button id="exportUnverifiedButton" class="btn btn-primary mb-2">
+    <i class="fa fa-download"></i> Export unverified Users
+</button>
+    </div>
+</div>
                      </div>
                         <form action="{{url()->current()}}" method="GET">
                             <div class="input-group">
@@ -50,36 +62,25 @@
                             </div>
                         </form>
                     </div>
-                    <div class="row">
+                    <div class="flex-start">
                     <div class="col-md-3">
-                        <select id="status" name="status" class="js-select2-custom"
-                                        data-hs-select2-options='{
-                                            "minimumResultsForSearch": "Infinity",
-                                            "customClass": "custom-select custom-select-sm text-capitalize"
-                                        }'>
-                                    <option value="">{{translate('any')}}</option>
-                                    <option value="0">{{translate('Not-Verified')}}</option>
-                                    <option value="1">{{translate('Verified')}}</option>
-                                    <option value="2">{{translate('Blocked')}}</option>
-                                </select>
-                        </div>
-                        <div class="col-md-2">
-                        <input type="date" id="date" name="date" class="form-control">
-                        </div>
-                        <div class="col-md-3">
-                        <select id="trial_completed" name="trial_completed" class="js-select2-custom"
-                                        data-hs-select2-options='{
-                                            "minimumResultsForSearch": "Infinity",
-                                            "customClass": "custom-select custom-select-sm text-capitalize"
-                                        }'>
-                                    <option value="">{{translate('any')}}</option>
-                                    <option value="0">{{translate('Yes')}}</option>
-                                    <option value="1">{{translate('no')}}</option>
-                                </select>
-                        </div>
-                        </div>
-                    <!-- End Header -->
+        <label for="status">{{translate('Status')}}</label>
+        <select id="status" class="form-control">
+            <option value="">{{translate('Any')}}</option>
+            <option value="0">{{translate('Not-Verified')}}</option>
+            <option value="1">{{translate('Verified')}}</option>
+            <option value="2">{{translate('Blocked')}}</option>
+        </select>
+    </div>
 
+    <div class="col-md-3">
+        <label for="date">{{translate('Joined Date')}}</label>
+        <input type="date" id="date" name="joined_date" class="form-control">
+    </div>
+</div>
+
+                    <!-- End Header -->
+<br>
                     <!-- Table -->
                     <div class="table-responsive datatable-custom">
                         <table class="table table-borderless table-thead-bordered table-nowrap table-align-middle card-table">
@@ -89,13 +90,13 @@
                                 <th >{{translate('name')}}</th>
                                 <th >{{translate('mobile')}}</th>
                                 <th>{{translate('refer_code')}}</th>
+                                <th>{{translate('status')}}</th>
                                 <th>{{translate('referred_by')}}</th>
                                 <th >{{translate('total_referals')}}</th>
                                 <th >{{translate('today_ads')}}</th>
                                 <th >{{translate('earn')}}</th>
                                 <th >{{translate('balance')}}</th>
                                 <th >{{translate('current_refers')}}</th>
-                                <th>{{translate('status')}}</th>
                                 <th>{{translate('joined_date')}}</th>
                                 <th>{{translate('action')}}</th>
                             </tr>
@@ -108,12 +109,6 @@
                                         <td>{{$user['name']}}</td>
                                         <td>{{$user['mobile']}}</td>
                                         <td>{{$user['refer_code']}}</td>
-                                        <td>{{$user['referred_by']}}</td>
-                                        <td>{{$user['total_referals']}}</td>
-                                        <td>{{$user['today_ads']}}</td>
-                                        <td>{{$user['earn']}}</td>
-                                        <td>{{$user['balance']}}</td>
-                                        <td>{{$user['current_refers']}}</td>
                                         <td>
                                             @if($user['status'] == 0)
                                                 <div style="margin-top:12px;">
@@ -129,6 +124,12 @@
                                                 </div>
                                             @endif
                                         </td>
+                                        <td>{{$user['referred_by']}}</td>
+                                        <td>{{$user['total_referals']}}</td>
+                                        <td>{{$user['today_ads']}}</td>
+                                        <td>{{$user['earn']}}</td>
+                                        <td>{{$user['balance']}}</td>
+                                        <td>{{$user['current_refers']}}</td>
                                         <td>{{$user['joined_date']}}</td>
                                         <td>
                                             <!-- Dropdown -->
@@ -186,7 +187,7 @@
                 }
             });
             $.post({
-                url: '{{ route('admin.course.search') }}',
+                url: '{{ route('admin.user.search') }}',
                 data: formData,
                 cache: false,
                 contentType: false,
@@ -210,43 +211,62 @@
             window.location.href = url;
         });
     </script>
-  <script>
-        $(document).on('ready', function () {
-            // INITIALIZATION OF DATATABLES
-            // =======================================================
-            // var datatable = $.HSCore.components.HSDatatables.init($('#columnSearchDatatable'));
-
-            var datatable = $('.table').DataTable({
-                "paging": false
-            });
-
-            $('#status').on('change', function () {
-                datatable
-                    .columns(0)
-                    .search(this.value)
-                    .draw();
-            });
-            $('#trail_completed').on('change', function () {
-                datatable
-                    .columns(0)
-                    .search(this.value)
-                    .draw();
-            });
-            $('#date').on('change', function() {
-                datatable
-                     .columns(5)
-                    .search(this.value)
-                    .draw();
-            });
-
-       
-
-
-            // INITIALIZATION OF SELECT2
-            // =======================================================
-            $('.js-select2-custom').each(function () {
-                var select2 = $.HSCore.components.HSSelect2.init($(this));
-            });
+<script>
+    $(document).on('ready', function () {
+        // INITIALIZATION OF DATATABLES
+        var datatable = $('.table').DataTable({
+            "paging": false
         });
-    </script>
+
+        $('#status').on('change', function () {
+            datatable
+                .columns(11)
+                .search(this.value)
+                .draw();
+        });
+
+        $('#date').on('change', function () {
+            datatable
+                .columns(11)
+                .search(this.value)
+                .draw();
+        });
+
+        // INITIALIZATION OF SELECT2
+        // =======================================================
+        $('.js-select2-custom').each(function () {
+            var select2 = $.HSCore.components.HSSelect2.init($(this));
+        });
+    });
+</script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tableexport@5.2.0/dist/css/tableexport.min.css">
+<script src="https://cdn.jsdelivr.net/npm/tableexport@5.2.0/dist/js/tableexport.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Handle the Export Verified Users button click
+    document.getElementById('exportVerifiedButton').addEventListener('click', function () {
+        window.location.href = '{{ route("admin.user.export-verified") }}';
+    });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Handle the Export Unverified Users button click
+    document.getElementById('exportUnverifiedButton').addEventListener('click', function () {
+        window.location.href = '{{ route("admin.user.export-unverified") }}';
+    });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Handle the Export All Users button click
+    document.getElementById('exportUserButton').addEventListener('click', function () {
+        window.location.href = '{{ route("admin.user.export-all") }}'; // Replace with your route
+    });
+});
+
+</script>
+
+
 @endpush

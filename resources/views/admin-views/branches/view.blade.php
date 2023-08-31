@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 
-@section('title', translate('categories Preview'))
+@section('title', translate('branches Preview'))
 
 @push('css_or_js')
 
@@ -12,7 +12,7 @@
         <div class="pb-3">
             <div class="row align-items-center">
                 <div class="col-sm mb-2 mb-sm-0">
-                    <h1 class=""> {{translate('categories')}} {{translate('details')}}</h1>
+                    <h1 class=""> {{translate('branches')}} {{translate('details')}}</h1>
                 </div>
                 <div class="col-sm mb-2 mb-sm-0">
                     <a href="{{url()->previous()}}" class="btn btn-primary float-right">
@@ -27,11 +27,11 @@
                 <table class="table table-bordered">
                             <tr>
                                 <th style="width: 200px">ID</th>
-                                <td>{{$categories['id']}}</td>
+                                <td>{{$branches['id']}}</td>
                             </tr>
                             <tr>
                                 <th style="width: 200px">Name</th>
-                                <td>{{$categories['name']}}</td>
+                                <td>{{$branches['name']}}</td>
                             </tr>
                            
                 </table>

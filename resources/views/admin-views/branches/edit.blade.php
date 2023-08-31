@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 
-@section('title', translate('Update session'))
+@section('title', translate('Update branches'))
 <style>
     .password-container{
         position: relative;
@@ -22,51 +22,46 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col-sm mb-2 mb-sm-0">
-                    <h1 class="page-header-title"><i class="tio-edit"></i> {{translate('update session')}}</h1>
+                    <h1 class="page-header-title"><i class="tio-edit"></i> {{translate('update branches')}}</h1>
                 </div>
             </div>
         </div>
         <!-- End Page Header -->
         <div class="row gx-2 gx-lg-3">
             <div class="col-sm-12 col-lg-12 mb-3 mb-lg-2">
-                <form action="{{route('admin.session.update',[$session['id']])}}" method="post"
+                <form action="{{route('admin.branches.update',[$branches['id']])}}" method="post"
                       enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-8 col-12">
                             <div class="form-group">
-                                <label class="input-label" for="exampleFormControlInput1">{{translate('tittle')}}</label>
-                                <input type="text" value="{{$session['tittle']}}" name="tittle"
+                                <label class="input-label" for="exampleFormControlInput1">{{translate('name')}}</label>
+                                <input type="text" value="{{$branches['name']}}" name="name"
                                        class="form-control" required>
                             </div>
                             <div class="form-group">
-    <label for="course_id">Course</label>
-    <select name="course_id" id="course_id" class="form-control">
-        @foreach($courses as $key => $value)
-            <option value="{{ $key }}" {{ $session->course_id == $key ? 'selected' : '' }}>{{ $value }}</option>
-        @endforeach
-    </select>
-</div>
-                            <div class="form-group">
-                                <label class="input-label" for="exampleFormControlInput1">{{translate('video_link')}}</label>
-                                <input type="text" value="{{$session['video_link']}}" name="video_link"
-                                       class="form-control" required>
-                            </div>
-                             <div class="form-group">
-                                <label class="input-label" for="exampleFormControlInput1">{{translate('video_duration')}}</label>
-                                <input type="time" value="{{$session['video_duration']}}" name="video_duration"
+                                <label class="input-label" for="exampleFormControlInput1">{{translate('mobile')}}</label>
+                                <input type="text" value="{{$branches['mobile']}}" name="mobile"
                                        class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label class="input-label" for="exampleFormControlInput1">{{translate('description')}}</label>
-                                <input type="text" value="{{$session['description']}}" name="description"
+                                <label class="input-label" for="exampleFormControlInput1">{{translate('short_code')}}</label>
+                                <input type="text" value="{{$branches['short_code']}}" name="short_code"
                                        class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                            <label class="input-label" for="exampleFormControlInput1">{{translate('support_lan')}}</label>
+                              <select name="support_lan" class="form-control">
+                              <option value=''>--select--</option>
+                                 <option value='tamil' {{ $branches['support_lan'] == 'tamil' ? 'selected' : '' }}>Tamil</option>
+                                 <option value='kannada' {{ $branches['support_lan'] == 'kannada' ? 'selected' : '' }}>Kannada</option>
+                                 <option value='telugu' {{ $branches['support_lan'] == 'telugu' ? 'selected' : '' }}>Telugu</option>
+                                 <option value='hindi' {{ $branches['support_lan'] == 'hindi' ? 'selected' : '' }}>Hindi</option>
+                                 <option value='english' {{ $branches['support_lan'] == 'english' ? 'selected' : '' }}>English</option>
+                            </select>
                             </div>
                         </div>
-                        </div>
-                   </div>
-</div>
-
+                    </div>
                     <button type="submit" class="btn btn-primary">{{translate('submit')}}</button>
                 </form>
             </div>

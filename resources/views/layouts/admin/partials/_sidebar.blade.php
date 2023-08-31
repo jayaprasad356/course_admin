@@ -61,7 +61,7 @@
                           <li class="navbar-vertical-aside-has-menu {{Request::is('admin/withdrawal/list')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                 href="{{route('admin.withdrawal.list')}}" title="{{translate('withdrawal')}}">
-                                    <i class="tio-user nav-icon"></i>
+                                    <i class="tio-money nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                             {{translate('withdrawal')}}
                                         </span>
@@ -72,29 +72,104 @@
                         @if(Helpers::module_permission_check(MANAGEMENT_SECTION['user_management']))
                           <!-- Pages -->
                           
-                          <li class="navbar-vertical-aside-has-menu {{Request::is('admin/categories/list')?'active':''}}">
+                          <li class="navbar-vertical-aside-has-menu {{Request::is('admin/app_update/list')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                href="{{route('admin.categories.list')}}" title="{{translate('categories')}}">
-                                    <i class="tio-user nav-icon"></i>
+                                href="{{route('admin.app_update.list')}}" title="{{translate('app_update')}}">
+                                    <i class="tio-settings nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                            {{translate('categories')}}
+                                            {{translate('app_update')}}
                                         </span>
                                 </a>
                             </li>
                           <!-- End Pages -->
                         @endif
-                       
+                        @if(Helpers::module_permission_check(MANAGEMENT_SECTION['user_management']))
                           <!-- Pages -->
                           
-                          <li class="navbar-vertical-aside-has-menu {{Request::is('admin/session/list')?'active':''}}">
+                          <li class="navbar-vertical-aside-has-menu {{Request::is('admin/notification/list')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                href="{{route('admin.session.list')}}" title="{{translate('session')}}">
-                                    <i class="tio-user nav-icon"></i>
+                                href="{{route('admin.notification.list')}}" title="{{translate('notification')}}">
+                                    <i class="tio-notifications  nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                            {{translate('session')}}
+                                            {{translate('notification')}}
                                         </span>
                                 </a>
                             </li>
+                          <!-- End Pages -->
+                        @endif
+                        @if(Helpers::module_permission_check(MANAGEMENT_SECTION['user_management']))
+                          <!-- Pages -->
+                          
+                          <li class="navbar-vertical-aside-has-menu {{Request::is('admin/transaction/list')?'active':''}}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                href="{{route('admin.transaction.list')}}" title="{{translate('transaction')}}">
+                                    <i class="tio-credit-card  nav-icon"></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                            {{translate('transaction')}}
+                                        </span>
+                                </a>
+                            </li>
+                          <!-- End Pages -->
+                        @endif
+                        @if(Helpers::module_permission_check(MANAGEMENT_SECTION['user_management']))
+                          <!-- Pages -->
+                          
+                          <li class="navbar-vertical-aside-has-menu {{Request::is('admin/ads/list')?'active':''}}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                href="{{route('admin.ads.list')}}" title="{{translate('ads')}}">
+                                    <i class="tio-star nav-icon"></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                            {{translate('ads')}}
+                                        </span>
+                                </a>
+                            </li>
+                          <!-- End Pages -->
+                        @endif
+                        @if(Helpers::module_permission_check(MANAGEMENT_SECTION['user_management']))
+                          <!-- Pages -->
+                          
+                          <li class="navbar-vertical-aside-has-menu {{Request::is('admin/ads_trans/list')?'active':''}}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                href="{{route('admin.ads_trans.list')}}" title="{{translate('ads_trans')}}">
+                                    <i class="tio-star nav-icon"></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                            {{translate('ads trans')}}
+                                        </span>
+                                </a>
+                            </li>
+                          <!-- End Pages -->
+                        @endif
+                        @if(Helpers::module_permission_check(MANAGEMENT_SECTION['user_management']))
+                          <!-- Pages -->
+                          
+                          <li class="navbar-vertical-aside-has-menu {{Request::is('admin/branches/list')?'active':''}}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                href="{{route('admin.branches.list')}}" title="{{translate('branches')}}">
+                                    <i class="fas fa-building nav-icon"></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                            {{translate('branches')}}
+                                        </span>
+                                </a>
+                            </li>
+                          <!-- End Pages -->
+                        @endif
+                        @if(Helpers::module_permission_check(MANAGEMENT_SECTION['user_management']))
+                          <!-- Pages -->
+                          
+                          <li class="navbar-vertical-aside-has-menu {{Request::is('admin/staffs/list')?'active':''}}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                href="{{route('admin.staffs.list')}}" title="{{translate('staffs')}}">
+                                    <i class="fas fa-users nav-icon"></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                            {{translate('staffs')}}
+                                        </span>
+                                </a>
+                            </li>
+                          <!-- End Pages -->
+                        @endif
+                          <!-- Pages -->
+                          
+                        
                           <!-- End Pages -->
                         
                   

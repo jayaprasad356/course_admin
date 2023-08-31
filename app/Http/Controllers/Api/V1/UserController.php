@@ -28,12 +28,12 @@ class UserController extends Controller
     public function login(Request $request)
 {
     $mobile = $request->input('mobile');
-    $password = $request->input('password');
+    $device_id = $request->input('device_id');
 
-    if (empty($mobile) || empty($password)) {
+    if (empty($mobile) || empty($device_id)) {
         return response()->json([
             'success' => false,
-            'message' => 'Mobile or password is empty.',
+            'message' => 'Mobile or device_id is empty.',
         ], 200);
     }
 
@@ -43,14 +43,6 @@ class UserController extends Controller
         return response()->json([
             'success' => false,
             'message' => 'Invalid mobile.',
-        ], 200);
-    }
-
-    // Verify the password
-    if (!Hash::check($password, $user->password)) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Invalid password.',
         ], 200);
     }
 
@@ -65,11 +57,14 @@ class UserController extends Controller
 public function Register(Request $request)
 {
     $validator = Validator::make($request->all(), [
-        'email' => 'required|email',
         'name' => 'required',
         'mobile' => 'required',
-        'password' => 'required|min:6',
-        'confirm_password' => 'required|same:password',
+        'device_id' => 'required',
+        'age' => 'required',
+        'gender' => 'required',
+        'city' => 'required',
+        'support_lan' => 'required',
+    
     ]);
 
     if ($validator->fails()) {
@@ -80,11 +75,13 @@ public function Register(Request $request)
     }
 
 
-    $email = $request->input('email');
     $name = $request->input('name');
     $mobile = $request->input('mobile');
-    $password = $request->input('password');
-    $confirmPassword = $request->input('confirm_password');
+    $device_id = $request->input('device_id');
+    $age = $request->input('age');
+    $city = $request->input('city');
+    $gender = $request->input('gender');
+    $support_lan = $request->input('support_lan');
     $referCode = Str::random(8); // Generate a random refer code
 
     $existingUser = User::where('mobile', $mobile)->first();
@@ -96,10 +93,8 @@ public function Register(Request $request)
     }
 
     $user = new User;
-    $user->email = $email;
     $user->name = $name;
     $user->mobile = $mobile;
-    $user->password = Hash::make($password);
     $user->refer_code = $referCode;
     $user->save();
     

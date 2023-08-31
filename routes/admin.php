@@ -203,31 +203,71 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('search', 'UserController@search')->name('search');
     });
     
-    Route::group(['prefix' => 'session', 'as' => 'session.', 'middleware' => ['module:session_management']], function () {
-        Route::get('add', 'sessionController@index')->name('add');
-        Route::post('store', 'sessionController@store')->name('store');
-        Route::get('list', 'sessionController@list')->name('list');
-        Route::get('preview/{id}', 'sessionController@preview')->name('preview');
-        Route::get('edit/{id}', 'sessionController@edit')->name('edit');
-        Route::post('update/{id}', 'sessionController@update')->name('update');
-        Route::delete('delete/{id}', 'sessionController@delete')->name('delete');
-        Route::post('search', 'sessionController@search')->name('search');
+    Route::group(['prefix' => 'ads', 'as' => 'ads.', 'middleware' => ['module:ads_management']], function () {
+        Route::get('add', 'adsController@index')->name('add');
+        Route::post('store', 'adsController@store')->name('store');
+        Route::get('list', 'adsController@list')->name('list');
+        Route::get('preview/{id}', 'adsController@preview')->name('preview');
+        Route::get('edit/{id}', 'adsController@edit')->name('edit');
+        Route::post('update/{id}', 'adsController@update')->name('update');
+        Route::delete('delete/{id}', 'adsController@delete')->name('delete');
+        Route::post('search', 'adsController@search')->name('search');
     });
 
     Route::group(['prefix' => 'withdrawal', 'as' => 'withdrawal.', 'middleware' => ['module:withdrawal_management']], function () {
         Route::get('list', 'withdrawalController@list')->name('list');
         Route::post('search', 'withdrawalController@search')->name('search');
+        Route::post('/admin/withdrawals/update-status', 'WithdrawalController@updateStatus')->name('admin.withdrawals.update-status');
+
+    });
+    Route::group(['prefix' => 'transaction', 'as' => 'transaction.', 'middleware' => ['module:transaction_management']], function () {
+        Route::get('list', 'transactionController@list')->name('list');
+        Route::post('search', 'transactionController@search')->name('search');
     });
 
-    Route::group(['prefix' => 'categories', 'as' => 'categories.', 'middleware' => ['module:categories_management']], function () {
-        Route::get('add', 'CategoriesController@index')->name('add');
-        Route::post('store', 'CategoriesController@store')->name('store');
-        Route::get('list', 'CategoriesController@list')->name('list');
-        Route::get('preview/{id}', 'CategoriesController@preview')->name('preview');
-        Route::get('edit/{id}', 'CategoriesController@edit')->name('edit');
-        Route::post('update/{id}', 'CategoriesController@update')->name('update');
-        Route::delete('delete/{id}', 'CategoriesController@delete')->name('delete');
-        Route::post('search', 'CategoriesController@search')->name('search');
+    Route::group(['prefix' => 'ads_trans', 'as' => 'ads_trans.', 'middleware' => ['module:ads_trans_management']], function () {
+        Route::get('list', 'ads_transController@list')->name('list');
+        Route::post('search', 'ads_transController@search')->name('search');
+    });
+
+    Route::group(['prefix' => 'notification', 'as' => 'notification.', 'middleware' => ['module:notification_management']], function () {
+        Route::get('list', 'notificationController@list')->name('list');
+        Route::post('search', 'notificationController@search')->name('search');
+        Route::get('add', 'notificationController@index')->name('add');
+        Route::post('store', 'notificationController@store')->name('store');
+        Route::delete('delete/{id}', 'notificationController@delete')->name('delete');
+    });
+
+    Route::group(['prefix' => 'app_update', 'as' => 'app_update.', 'middleware' => ['module:app_update_management']], function () {
+        Route::get('add', 'app_updateController@index')->name('add');
+        Route::post('store', 'app_updateController@store')->name('store');
+        Route::get('list', 'app_updateController@list')->name('list');
+        Route::get('preview/{id}', 'app_updateController@preview')->name('preview');
+        Route::get('edit/{id}', 'app_updateController@edit')->name('edit');
+        Route::post('update/{id}', 'app_updateController@update')->name('update');
+        Route::delete('delete/{id}', 'app_updateController@delete')->name('delete');
+        Route::post('search', 'app_updateController@search')->name('search');
+    });
+
+    Route::group(['prefix' => 'branches', 'as' => 'branches.', 'middleware' => ['module:branches_management']], function () {
+        Route::get('add', 'branchesController@index')->name('add');
+        Route::post('store', 'branchesController@store')->name('store');
+        Route::get('list', 'branchesController@list')->name('list');
+        Route::get('preview/{id}', 'branchesController@preview')->name('preview');
+        Route::get('edit/{id}', 'branchesController@edit')->name('edit');
+        Route::post('update/{id}', 'branchesController@update')->name('update');
+        Route::delete('delete/{id}', 'branchesController@delete')->name('delete');
+        Route::post('search', 'branchesController@search')->name('search');
+    });
+    Route::group(['prefix' => 'staffs', 'as' => 'staffs.', 'middleware' => ['module:staffs_management']], function () {
+        Route::get('add', 'staffsController@index')->name('add');
+        Route::post('store', 'staffsController@store')->name('store');
+        Route::get('list', 'staffsController@list')->name('list');
+        Route::get('preview/{id}', 'staffsController@preview')->name('preview');
+        Route::get('edit/{id}', 'staffsController@edit')->name('edit');
+        Route::post('update/{id}', 'staffsController@update')->name('update');
+        Route::delete('delete/{id}', 'staffsController@delete')->name('delete');
+        Route::post('search', 'staffsController@search')->name('search');
     });
     
 

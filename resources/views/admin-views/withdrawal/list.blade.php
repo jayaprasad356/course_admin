@@ -28,6 +28,12 @@
                         <div class="flex-start">
                             <h5 class="card-header-title">{{translate('withdrawal Table')}}</h5>
                             <h5 class="card-header-title text-primary mx-1">({{ $withdrawals->total() }})</h5>
+                            <div class="col-md-3">
+                                <button class="btn btn-success mark-as-status" data-status="1">{{ translate('Paid') }}</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-danger mark-as-status" data-status="2">{{ translate('Cancelled') }}</button>
+                            </div>
                         </div>
                         <div>
                             <form action="{{url()->current()}}" method="GET">
@@ -37,8 +43,7 @@
                                            placeholder="{{translate('Search')}}" aria-label="Search"
                                            value="{{$search}}" required autocomplete="off">
                                     <div class="input-group-append">
-                                        <button type="submit" class="input-group-text"><i class="tio-search"></i>
-                                        </button>
+                                        <button type="submit" class="input-group-text"><i class="tio-search"></i></button>
                                     </div>
                                 </div>
                             </form>
@@ -51,26 +56,44 @@
                         <table class="table table-borderless table-thead-bordered table-nowrap table-align-middle card-table">
                             <thead class="thead-light">
                             <tr>
+                                <th>{{ translate('Select') }}</th>
                                 <th>{{translate('ID')}}</th>
                                 <th>{{translate('Mobile')}}</th>
                                 <th>{{translate('Status')}}</th>
                                 <th>{{translate('amount')}}</th>
                                 <th>{{translate('datetime')}}</th>
-                                 <th>{{translate('earn')}}</th>
-                                 <th>{{translate('Account Number')}}</th>
-                                 <th>{{translate('Holder Name')}}</th>
-                                 <th>{{translate('Bank')}}</th>
-                                 <th>{{translate('branch')}}</th>
-                                 <th>{{translate('ifsc')}}</th>
+                                <th>{{translate('earn')}}</th>
+                                <th>{{translate('Account Number')}}</th>
+                                <th>{{translate('Holder Name')}}</th>
+                                <th>{{translate('Bank')}}</th>
+                                <th>{{translate('branch')}}</th>
+                                <th>{{translate('ifsc')}}</th>
                             </tr>
                             </thead>
 
                             <tbody id="set-rows">
                             @foreach($withdrawals as $key => $withdrawal)
                                 <tr>
-                                <td>{{ $withdrawal->id }}</td>
+                                    <td>
+                                        <input type="checkbox" class="withdrawal-checkbox" value="{{ $withdrawal->id }}">
+                                    </td>
+                                    <td>{{ $withdrawal->id }}</td>
                                     <td>{{ optional($withdrawal->user)->mobile }}</td>
-                                    <td>{{ $withdrawal->status }}</td>
+                                    <td>
+                                        @if($withdrawal['status'] == 0)
+                                            <div style="margin-top:12px;">
+                                                <p class="text text-primary">{{translate('unpaid')}}</p>
+                                            </div>
+                                        @elseif($withdrawal['status'] == 1)
+                                            <div style="margin-top:12px;">
+                                                <p class="text text-success">{{translate('paid')}}</p>
+                                            </div>
+                                        @elseif($withdrawal['status'] == 2)
+                                            <div style="margin-top:12px;">
+                                                <p class="text text-danger">{{translate('cancelled')}}</p>
+                                            </div>
+                                        @endif
+                                    </td>
                                     <td>{{ $withdrawal->amount }}</td>
                                     <td>{{ $withdrawal->datetime }}</td>
                                     <td>{{ optional($withdrawal->user)->earn }}</td>
@@ -79,8 +102,6 @@
                                     <td>{{ optional($withdrawal->user)->bank }}</td>
                                     <td>{{ optional($withdrawal->user)->branch }}</td>
                                     <td>{{ optional($withdrawal->user)->ifsc }}</td>
-                                    </td>
-                               
                                 </tr>
                             @endforeach
                             </tbody>
@@ -99,63 +120,53 @@
             </div>
         </div>
     </div>
-@endsection
+    @push('script_2')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const markAsPaidButton = document.querySelector('.mark-as-status[data-status="1"]');
+        const markAsCancelledButton = document.querySelector('.mark-as-status[data-status="2"]');
 
-@push('script_2')
-    <script>
-        $('#search-form').on('submit', function () {
-            var formData = new FormData(this);
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.post({
-                url: '{{route('admin.withdrawal.search')}}',
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                beforeSend: function () {
-                    $('#loading').show();
-                },
-                success: function (data) {
-                    $('#set-rows').html(data.view);
-                    $('.page-area').hide();
-                },
-                complete: function () {
-                    $('#loading').hide();
-                },
-            });
+        markAsPaidButton.addEventListener('click', function () {
+            updateWithdrawalStatus(1); // Status code for Paid
         });
-    </script>
-    <script>
-        $(document).ready(function () {
-            // INITIALIZATION OF DATATABLES
-            // =======================================================
-            var datatable = $('.table').DataTable({
-                "paging": false
-            });
 
-            $('#status').on('change', function () {
-                datatable
-                    .columns(0)
-                    .search(this.value)
-                    .draw();
-            });
-
-            $('#date').on('change', function () {
-                datatable
-                    .columns(5)
-                    .search(this.value)
-                    .draw();
-            });
-
-            // INITIALIZATION OF SELECT2
-            // =======================================================
-            $('.js-select2-custom').each(function () {
-                var select2 = $(this).select2();
-            });
+        markAsCancelledButton.addEventListener('click', function () {
+            updateWithdrawalStatus(2); // Status code for Cancelled
         });
-    </script>
+
+        function updateWithdrawalStatus(status) {
+            const selectedWithdrawalIds = [];
+            const selectedCheckboxes = document.querySelectorAll('.withdrawal-checkbox:checked');
+
+            selectedCheckboxes.forEach(function (checkbox) {
+                selectedWithdrawalIds.push(checkbox.value);
+            });
+
+            if (selectedWithdrawalIds.length > 0) {
+                fetch('{{ route('admin.update.withdrawal.status') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        status: status,
+                        withdrawal_ids: selectedWithdrawalIds
+                    })
+                }).then(function (response) {
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        console.error('Failed to update withdrawal statuses.');
+                    }
+                }).catch(function (error) {
+                    console.error('An error occurred:', error);
+                });
+            } else {
+                console.error('No withdrawal selected.');
+            }
+        }
+    });
+</script>
 @endpush
+@endsection

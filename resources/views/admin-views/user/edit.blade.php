@@ -58,22 +58,37 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="input-label" for="exampleFormControlInput1">{{translate('select lead')}}</label>
-                            <input type="text" value="{{$user['referred_by']}}" name="referred_by" class="form-control" required>
+                        <label class="input-label" for="exampleFormControlInput1">{{ translate('support lead') }}<i class="text-danger asterik">*</i></label>
+    <select name="lead_id" class="form-control" required>
+        <option value="">{{ translate('Select a staffs') }}</option>
+        @foreach($staffs as $key => $value)
+                                    <option value="{{ $key }}" {{ $user->lead_id == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="input-label" for="exampleFormControlInput1">{{translate('refer_code')}}</label>
-                            <input type="text" value="{{$user['refer_code']}}" name="refer_code" class="form-control" required>
+                        <label class="input-label" for="exampleFormControlInput1">{{ translate('support lead') }}<i class="text-danger asterik">*</i></label>
+    <select name="support_id" class="form-control" required>
+        <option value="">{{ translate('Select a staffs') }}</option>
+        @foreach($staffs as $key => $value)
+                                    <option value="{{ $key }}" {{ $user->support_id == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="input-label" for="exampleFormControlInput1">{{translate('referred_by')}}</label>
-                            <input type="text" value="{{$user['referred_by']}}" name="referred_by" class="form-control" required>
+                        <label class="input-label" for="exampleFormControlInput1">{{ translate('select branch') }}<i class="text-danger asterik">*</i></label>
+    <select name="branch_id" class="form-control" required>
+        <option value="">{{ translate('Select a branch') }}</option>
+        @foreach($branches as $key => $value)
+                                    <option value="{{ $key }}" {{ $user->branch_id == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 <div class='col-md-5'>
@@ -172,11 +187,18 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label class="js-switch" for="exampleFormControlInput1">{{translate('Withdrawal Status')}}</label>
-                            <input type="checkbox" value="{{$user['withdrawal_status']}}" name="withdrawal_status" class="form-control" required>
-                        </div>
+                <div class='col-md-3'>
+                        <label class="control-label">Status</label> <i class="text-danger asterik">*</i>
+                        <br>
+                        <div id="withdrawal_status" class="btn-group">
+                            <label class="btn btn-primary" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
+                                <input type="radio" name="withdrawal_status" value="0" <?= ($user['withdrawal_status'] == 0) ? 'checked' : ''; ?>>Deactive
+                            </label>
+                            <label class="btn btn-success" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                <input type="radio" name="withdrawal_status" value="1" <?= ($user['withdrawal_status'] == 1) ? 'checked' : ''; ?>> Active
+                            </label>
+                       
+                    </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
@@ -192,8 +214,16 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="input-label" for="exampleFormControlInput1">{{translate('Select Languages')}}</label>
-                            <input type="text" value="{{$user['support_lan']}}" name="support_lan" class="form-control" required>
+                        <label class="input-label" for="exampleFormControlInput1">{{translate('support_lan')}}</label>
+                              <select name="support_lan" class="form-control">
+                              <option value=''>--select--</option>
+                                 <option value='tamil' {{ $user['support_lan'] == 'tamil' ? 'selected' : '' }}>Tamil</option>
+                                 <option value='kannada' {{ $user['support_lan'] == 'kannada' ? 'selected' : '' }}>Kannada</option>
+                                 <option value='telugu' {{ $user['support_lan'] == 'telugu' ? 'selected' : '' }}>Telugu</option>
+                                 <option value='hindi' {{ $user['support_lan'] == 'hindi' ? 'selected' : '' }}>Hindi</option>
+                                 <option value='english' {{ $user['support_lan'] == 'english' ? 'selected' : '' }}>English</option>
+                            </select>
+                            </div>
                         </div>
                     </div>
                 </div>

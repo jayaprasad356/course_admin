@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 
-@section('title', translate('Add new categories'))
+@section('title', translate('Update app_update'))
 <style>
     .password-container{
         position: relative;
@@ -19,28 +19,42 @@
 @section('content')
     <div class="content container-fluid">
         <!-- Page Header -->
-        <div class="pb-3">
+        <div class="page-header">
             <div class="row align-items-center">
                 <div class="col-sm mb-2 mb-sm-0">
-                    <h1 class=""><i class="tio-add-circle-outlined"></i> {{translate('add')}} {{translate('new')}} {{translate('categories')}}</h1>
+                    <h1 class="page-header-title"><i class="tio-edit"></i> {{translate('update')}}</h1>
                 </div>
             </div>
         </div>
         <!-- End Page Header -->
         <div class="row gx-2 gx-lg-3">
             <div class="col-sm-12 col-lg-12 mb-3 mb-lg-2">
-                <form action="{{route('admin.categories.store')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('admin.app_update.update',[$app_update['id']])}}" method="post"
+                      enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-8 col-12">
                             <div class="form-group">
-                                <label class="input-label" for="exampleFormControlInput1">{{translate('name')}}<i class="text-danger asterik">*</i></label>
-                                <input type="text" name="name" class="form-control" placeholder="{{translate('categories Name')}}"
-                                       required>
+                                <label class="input-label" for="exampleFormControlInput1">{{translate('link')}}</label>
+                                <input type="text" value="{{$app_update['link']}}" name="link"
+                                       class="form-control" required>
+                            </div>
+                             <div class="form-group">
+                                <label class="input-label" for="exampleFormControlInput1">{{translate('version')}}</label>
+                                <input type="text" value="{{$app_update['version']}}" name="version"
+                                       class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="input-label" for="exampleFormControlInput1">{{translate('description')}}</label>
+                                <input type="text" value="{{$app_update['description']}}" name="description"
+                                       class="form-control" required>
                             </div>
                         </div>
+                        </div>
+                   </div>
+</div>
+
                     <button type="submit" class="btn btn-primary">{{translate('submit')}}</button>
-                    <input type="reset" onClick="refreshPage()" class="btn-warning btn" value="Clear" />
                 </form>
             </div>
         </div>
@@ -72,13 +86,7 @@
             readURL(this, 'viewer3');
         });
     </script>
-    <script>
-         $('#btnClear').on('click', function() {
-        for (instance in CKEDITOR.instances) {
-            CKEDITOR.instances[instance].setData('');
-        }
-        }); 
-    </script>
+
     <script>
         // Update label with selected file name
         $('input[type="file"]').change(function(e){
